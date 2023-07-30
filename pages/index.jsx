@@ -37,28 +37,28 @@ const Home = observer(function Home() {
         form={"add-car-form"}
         resetState={resetState}
       >
-        <Form handleSubmit={handleSubmit} id={"add-car-form"}>
-          <label htmlFor="make_input">Ime</label>
-          <input
-            placeholder="Unesite marku vozila"
-            required
-            form="add-car-form"
-            id="make_input"
-            type="text"
-            value={makeInput}
-            onChange={(e) => setMakeInput(e.target.value)}
-          />
-          <label htmlFor="model_input">Model</label>
-          <input
-            placeholder="Unesite model vozila"
-            required
-            form="add-car-form"
-            type="text"
-            id="model_input"
-            value={modelInput}
-            onChange={(e) => setModelInput(e.target.value)}
-          />
-        </Form>
+        <Form
+          handleSubmit={handleSubmit}
+          formId={"add-car-form"}
+          inputs={[
+            {
+              id: "make_input",
+              label: "Ime",
+              placeholder: "Unesite marku vozila",
+              type: "text",
+              value: makeInput,
+              setValue: setMakeInput,
+            },
+            {
+              id: "model_input",
+              label: "Model",
+              placeholder: "Unesite model vozila",
+              type: "text",
+              value: modelInput,
+              setValue: setModelInput,
+            },
+          ]}
+        />
       </Dialog>
       <ButtonsLayout>
         <button
