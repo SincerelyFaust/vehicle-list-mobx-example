@@ -8,18 +8,20 @@ import { useState } from "react";
 import Form from "@/components/Form";
 
 const Home = observer(function Home() {
-  const store = useStore();
   const [openDialog, setOpenDialog] = useState(false);
+  const [makeInput, setMakeInput] = useState("");
+  const [modelInput, setModelInput] = useState("");
+
+  const store = useStore();
 
   function handleSubmit() {
     event.preventDefault();
 
-    store.createVehicle(
-      event.target.make_input.value,
-      event.target.model_input.value
-    );
+    store.createVehicle(makeInput, modelInput);
 
     setOpenDialog(!openDialog);
+    setMakeInput("");
+    setModelInput("");
   }
 
   return (
@@ -38,6 +40,8 @@ const Home = observer(function Home() {
             form="add-car-form"
             id="make_input"
             type="text"
+            value={makeInput}
+            onChange={(e) => setMakeInput(e.target.value)}
           />
           <label htmlFor="model_input">Model</label>
           <input
@@ -46,6 +50,8 @@ const Home = observer(function Home() {
             form="add-car-form"
             type="text"
             id="model_input"
+            value={modelInput}
+            onChange={(e) => setModelInput(e.target.value)}
           />
         </Form>
       </Dialog>
