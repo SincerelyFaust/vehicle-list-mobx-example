@@ -3,7 +3,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.2rem;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
 }
 
 .form label {
