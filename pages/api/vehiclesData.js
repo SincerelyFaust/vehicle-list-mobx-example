@@ -75,5 +75,11 @@ export const vehiclesData = {
       name: "370Z",
       abrv: "370Z",
     },
+    {
+      id: 9,
+      makeid: 3,
+      name: "Kona",
+      abrv: "Kona",
+    },
   ],
 };
