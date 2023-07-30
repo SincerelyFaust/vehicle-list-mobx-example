@@ -1,6 +1,6 @@
 import styles from "@/components/Dialog.module.css";
 
-export default function Dialog({ open, setOpen, title, children, form }) {
+export default function Dialog({ open, title, children, form, resetState }) {
   return (
     <div hidden={!open} className={styles["dialog-container"]}>
       <dialog hidden={!open} className={styles["dialog"]}>
@@ -8,7 +8,13 @@ export default function Dialog({ open, setOpen, title, children, form }) {
         {children}
         <div className={styles["dialog-buttons-container"]}>
           <input type="submit" form={form}></input>
-          <button onClick={() => setOpen(!open)}>Zatvori</button>
+          <button
+            onClick={() => {
+              resetState();
+            }}
+          >
+            Zatvori
+          </button>
         </div>
       </dialog>
     </div>

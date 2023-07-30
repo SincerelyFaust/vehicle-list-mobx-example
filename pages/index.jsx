@@ -14,14 +14,18 @@ const Home = observer(function Home() {
 
   const store = useStore();
 
+  function resetState() {
+    setOpenDialog(!openDialog);
+    setMakeInput("");
+    setModelInput("");
+  }
+
   function handleSubmit() {
     event.preventDefault();
 
     store.createVehicle(makeInput, modelInput);
 
-    setOpenDialog(!openDialog);
-    setMakeInput("");
-    setModelInput("");
+    resetState();
   }
 
   return (
@@ -31,6 +35,7 @@ const Home = observer(function Home() {
         open={openDialog}
         setOpen={setOpenDialog}
         form={"add-car-form"}
+        resetState={resetState}
       >
         <Form handleSubmit={handleSubmit} id={"add-car-form"}>
           <label htmlFor="make_input">Ime</label>
