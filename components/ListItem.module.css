@@ -5,9 +5,9 @@
     border-radius: 0.6rem;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     padding: 1.2rem 2rem;
+    gap: 16%;
 }
 
 .list-item p {
@@ -17,9 +17,9 @@
 .button-div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     gap: 1.2rem;
+    margin-left: auto;
 }
 
 .button-div button {
