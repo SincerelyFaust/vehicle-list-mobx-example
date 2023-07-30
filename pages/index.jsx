@@ -9,14 +9,18 @@ const Home = observer(function Home() {
   return (
     <>
       <ListLayout>
-        {store.VehicleModel.map((car) => {
+        {store.VehicleModel.map((vehicleModel) => {
           const vehicleMake = store.VehicleMake.find(
-            (make) => make.id === car.makeid
+            (make) => make.id === vehicleModel.makeid
           );
 
           return (
             <>
-              <ListItem key={car.id} make={vehicleMake.abrv} model={car.abrv} />
+              <ListItem
+                key={vehicleModel.id}
+                make={vehicleMake.abrv}
+                model={vehicleModel.abrv}
+              />
             </>
           );
         })}
