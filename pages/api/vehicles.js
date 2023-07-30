@@ -1,4 +1,4 @@
-import { vehiclesData } from "./vehiclesData";
+import { vehiclesData } from "@/common/VehiclesData";
 import addVehicle from "@/common/AddVehicle";
 
 export default function handler(req, res) {
