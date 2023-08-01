@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import addVehicle from "@/common/AddVehicle";
+import deleteVehicle from "@/common/DeleteVehicle";
 
 export class VehicleStore {
   VehicleMake = [];
@@ -36,6 +37,26 @@ export class VehicleStore {
       body: JSON.stringify({
         newVehicleMake: newVehicleMake,
         newVehicleModel: newVehicleModel,
+      }),
+    });
+  }
+
+  deleteVehicle(editVehicleModel, editVehicleMake) {
+    deleteVehicle(
+      this.VehicleModel,
+      this.VehicleMake,
+      editVehicleModel,
+      editVehicleMake
+    );
+
+    fetch("/api/vehicles", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        newVehicleModel: editVehicleModel,
+        newVehicleMake: editVehicleMake,
       }),
     });
   }
