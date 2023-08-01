@@ -8,13 +8,7 @@ export default function Dialog({ open, title, children, form, resetState }) {
         {children}
         <div className={styles["dialog-buttons-container"]}>
           <input type="submit" form={form}></input>
-          <button
-            onClick={() => {
-              resetState();
-            }}
-          >
-            Zatvori
-          </button>
+          <button onClick={resetState}>Zatvori</button>
         </div>
       </dialog>
     </div>
