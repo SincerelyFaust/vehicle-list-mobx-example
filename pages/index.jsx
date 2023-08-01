@@ -102,8 +102,8 @@ export async function getServerSideProps() {
   return {
     props: {
       initialState: {
-        VehicleMake: VehicleMake,
-        VehicleModel: VehicleModel,
+        VehicleMake,
+        VehicleModel,
       },
     },
   };
