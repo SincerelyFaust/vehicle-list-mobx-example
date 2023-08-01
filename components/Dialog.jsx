@@ -7,7 +7,7 @@ export default function Dialog({ open, title, children, form, resetState }) {
         <p className={styles["dialog-title"]}>{title}</p>
         {children}
         <div className={styles["dialog-buttons-container"]}>
-          <input type="submit" form={form}></input>
+          <input type="submit" form={form} value={"Potvrdi"} />
           <button onClick={resetState}>Zatvori</button>
         </div>
       </dialog>
