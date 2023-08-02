@@ -17,10 +17,10 @@ export default function addVehicle(
   const vehicleMakeLength = vehicleMakeData.length;
   const vehicleModelLength = vehicleModelData.length;
   const vehicleMake = vehicleMakeData.find(
-    (make) => make.abrv === newVehicleMakeAbrv
+    (make) => make.abrv.toLowerCase() === newVehicleMakeAbrv.toLowerCase()
   );
   const vehicleModel = vehicleModelData.find(
-    (model) => model.name === newVehicleModelName
+    (model) => model.name.toLowerCase() === newVehicleModelName.toLowerCase()
   );
 
   /* the reason for this boolean check is not to add a vehicle make that already exists */
@@ -38,7 +38,8 @@ export default function addVehicle(
   if (vehicleMake && vehicleModel) {
     const isDuplicate = vehicleModelData.some(
       (model) =>
-        model.makeid === vehicleMake.id && model.name === newVehicleModelName
+        model.makeid === vehicleMake.id &&
+        model.name.toLowerCase() === newVehicleModelName.toLowerCase()
     );
 
     if (!isDuplicate) {
