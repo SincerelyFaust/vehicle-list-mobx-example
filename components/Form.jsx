@@ -9,7 +9,7 @@ export default function Form({ handleSubmit, formId, inputs }) {
             <label htmlFor={input.id}>{input.label}</label>
             <input
               placeholder={input.placeholder}
-              required
+              required={input.required}
               form={formId}
               id={input.id}
               type={input.type}

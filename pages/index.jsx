@@ -48,6 +48,7 @@ const Home = observer(function Home() {
               type: "text",
               value: makeInput,
               setValue: setMakeInput,
+              required: true,
             },
             {
               id: "model_input",
@@ -56,6 +57,7 @@ const Home = observer(function Home() {
               type: "text",
               value: modelInput,
               setValue: setModelInput,
+              required: true,
             },
           ]}
         />
