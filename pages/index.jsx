@@ -9,21 +9,30 @@ import Form from "@/components/Form";
 
 const Home = observer(function Home() {
   const [openDialog, setOpenDialog] = useState(false);
-  const [makeInput, setMakeInput] = useState("");
-  const [modelInput, setModelInput] = useState("");
+  const [makeNameInput, setMakeNameInput] = useState("");
+  const [makeAbrvInput, setMakeAbrvInput] = useState("");
+  const [modelNameInput, setModelNameInput] = useState("");
+  const [modelAbrvInput, setModelAbrvInput] = useState("");
 
   const store = useStore();
 
   function resetState() {
     setOpenDialog(!openDialog);
-    setMakeInput("");
-    setModelInput("");
+    setMakeNameInput("");
+    setMakeAbrvInput("");
+    setModelNameInput("");
+    setModelAbrvInput("");
   }
 
   function handleSubmit() {
     event.preventDefault();
 
-    store.createVehicle(makeInput, modelInput);
+    store.createVehicle(
+      makeNameInput,
+      makeAbrvInput,
+      modelNameInput,
+      modelAbrvInput
+    );
 
     resetState();
   }
@@ -37,30 +46,62 @@ const Home = observer(function Home() {
         form={"add-car-form"}
         resetState={resetState}
       >
-        <Form
-          handleSubmit={handleSubmit}
-          formId={"add-car-form"}
-          inputs={[
-            {
-              id: "make_input",
-              label: "Ime",
-              placeholder: "Unesite marku vozila",
-              type: "text",
-              value: makeInput,
-              setValue: setMakeInput,
-              required: true,
-            },
-            {
-              id: "model_input",
-              label: "Model",
-              placeholder: "Unesite model vozila",
-              type: "text",
-              value: modelInput,
-              setValue: setModelInput,
-              required: true,
-            },
-          ]}
-        />
+        <Form handleSubmit={handleSubmit} formId={"add-car-form"}>
+          <label>Marka vozila</label>
+          <div className="add-car-form-content">
+            <div className="add-car-form-item">
+              <label htmlFor="make_name_input">Naziv</label>
+              <input
+                placeholder="Unesite naziv marke vozila"
+                required
+                form="add-car-form"
+                id="make_name_input"
+                type="text"
+                value={makeNameInput}
+                onChange={(e) => setMakeNameInput(e.target.value)}
+              />
+            </div>
+            <div className="add-car-form-item">
+              <label htmlFor="make_abrv_input">Skraćenica</label>
+              <input
+                placeholder="Unesite skraćenicu marke vozila"
+                required
+                form="add-car-form"
+                id="make_abrv_input"
+                type="text"
+                value={makeAbrvInput}
+                onChange={(e) => setMakeAbrvInput(e.target.value)}
+              />
+            </div>
+          </div>
+          <label>Model vozila</label>
+          <div className="add-car-form-content">
+            <div className="add-car-form-item">
+              <label htmlFor="model_name_input">Naziv</label>
+              <input
+                placeholder="Unesite naziv modela vozila"
+                required
+                form="add-car-form"
+                id="model_name_input"
+                type="text"
+                value={modelNameInput}
+                onChange={(e) => setModelNameInput(e.target.value)}
+              />
+            </div>
+            <div className="add-car-form-item">
+              <label htmlFor="model_abrv_input">Skraćenica</label>
+              <input
+                placeholder="Unesite skraćenicu modela vozila"
+                required
+                form="add-car-form"
+                id="model_abrv_input"
+                type="text"
+                value={modelAbrvInput}
+                onChange={(e) => setModelAbrvInput(e.target.value)}
+              />
+            </div>
+          </div>
+        </Form>
       </Dialog>
       <ButtonsLayout>
         <button
@@ -83,8 +124,8 @@ const Home = observer(function Home() {
             <>
               <ListItem
                 key={vehicleModel.id}
-                make={vehicleMake.abrv}
-                model={vehicleModel.abrv}
+                vehicleMakeAbrv={vehicleMake.abrv}
+                vehicleModelAbrv={vehicleModel.abrv}
               />
             </>
           );

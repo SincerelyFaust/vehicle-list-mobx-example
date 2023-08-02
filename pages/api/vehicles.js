@@ -4,7 +4,6 @@ import deleteVehicle from "@/common/DeleteVehicle";
 
 export default function handler(req, res) {
   const { method, body } = req;
-  const { newVehicleMake, newVehicleModel } = body;
 
   switch (method) {
     case "GET":
@@ -14,8 +13,10 @@ export default function handler(req, res) {
       addVehicle(
         vehiclesData.VehicleMake,
         vehiclesData.VehicleModel,
-        newVehicleMake,
-        newVehicleModel
+        body.newVehicleMakeName,
+        body.newVehicleMakeAbrv,
+        body.newVehicleModelName,
+        body.newVehicleModelAbrv
       );
       res
         .status(200)
@@ -25,8 +26,8 @@ export default function handler(req, res) {
       deleteVehicle(
         vehiclesData.VehicleModel,
         vehiclesData.VehicleMake,
-        newVehicleModel,
-        newVehicleMake
+        body.selectedVehicleMakeAbrv,
+        body.selectedVehicleModelAbrv
       );
       res
         .status(200)

@@ -18,8 +18,7 @@
     margin: auto;
     width: 80%;
     max-width: 30rem;
-    min-width: 22rem;
-    height: 24rem;
+    min-height: 24rem;
     background-color: #2a2a2a;
     z-index: 9999;
     border: none;
@@ -34,6 +33,7 @@
 
 .dialog-title {
     color: white;
+    font-size: 1.1rem;
 }
 
 .dialog-buttons-container {

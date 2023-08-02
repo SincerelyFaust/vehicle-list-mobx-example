@@ -1,18 +1,26 @@
 export default function addVehicle(
   vehicleMakeData,
   vehicleModelData,
-  newVehicleMake,
-  newVehicleModel
+  newVehicleMakeName,
+  newVehicleMakeAbrv,
+  newVehicleModelName,
+  newVehicleModelAbrv
 ) {
-  if (!newVehicleMake && !newVehicleModel) return;
+  if (
+    !newVehicleMakeName &&
+    !newVehicleMakeAbrv &&
+    !newVehicleModelName &&
+    !newVehicleModelAbrv
+  )
+    return;
 
   const vehicleMakeLength = vehicleMakeData.length;
   const vehicleModelLength = vehicleModelData.length;
   const vehicleMake = vehicleMakeData.find(
-    (make) => make.abrv === newVehicleMake
+    (make) => make.abrv === newVehicleMakeAbrv
   );
   const vehicleModel = vehicleModelData.find(
-    (model) => model.name === newVehicleModel
+    (model) => model.name === newVehicleModelName
   );
 
   /* the reason for this boolean check is not to add a vehicle make that already exists */
@@ -21,8 +29,8 @@ export default function addVehicle(
     ? null
     : vehicleMakeData.push({
         id: vehicleMakeLength + 1,
-        name: newVehicleMake,
-        abrv: newVehicleMake,
+        name: newVehicleMakeName,
+        abrv: newVehicleMakeAbrv,
       });
 
   /* the reason for this if statement check is not to add a vehicle model that already exists unless the model name only shares the same name as some other model that's under a different vehicle make in which case we want to add it */
@@ -30,23 +38,23 @@ export default function addVehicle(
   if (vehicleMake && vehicleModel) {
     const isDuplicate = vehicleModelData.some(
       (model) =>
-        model.makeid === vehicleMake.id && model.name === newVehicleModel
+        model.makeid === vehicleMake.id && model.name === newVehicleModelName
     );
 
     if (!isDuplicate) {
       vehicleModelData.push({
         id: vehicleModelLength + 1,
         makeid: vehicleMake.id,
-        name: newVehicleModel,
-        abrv: newVehicleModel,
+        name: newVehicleModelName,
+        abrv: newVehicleModelAbrv,
       });
     }
   } else if (vehicleMake && !vehicleModel) {
     vehicleModelData.push({
       id: vehicleModelLength + 1,
       makeid: vehicleMake.id,
-      name: newVehicleModel,
-      abrv: newVehicleModel,
+      name: newVehicleModelName,
+      abrv: newVehicleModelAbrv,
     });
   } else if (
     (vehicleModel && !vehicleMake) ||
@@ -55,8 +63,8 @@ export default function addVehicle(
     vehicleModelData.push({
       id: vehicleModelLength + 1,
       makeid: vehicleMakeLength + 1,
-      name: newVehicleModel,
-      abrv: newVehicleModel,
+      name: newVehicleModelName,
+      abrv: newVehicleModelAbrv,
     });
   }
 }

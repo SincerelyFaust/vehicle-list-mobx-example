@@ -3,25 +3,10 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-}
-
-.form-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
+    gap: 1.4rem;
 }
 
 .form label {
     color: white;
-}
-
-.form input {
-    height: 2.4rem;
-    color: #fff;
-    padding: 0 1rem;
-    border: none;
-    outline: none;
-    background-color: rgb(66, 66, 66);
-    border-radius: 0.3rem;
+    font-size: 1rem;
 }
