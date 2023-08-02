@@ -2,6 +2,7 @@ import Dialog from "@/components/Dialog";
 import { useState } from "react";
 import Form from "@/components/Form";
 import { useStore } from "@/common/StoreProvider";
+import styles from "@/components/AddVehicleDialog.module.css";
 
 export default function AddVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
@@ -41,8 +42,8 @@ export default function AddVehicleDialog({ open, setOpen }) {
     >
       <Form handleSubmit={handleSubmit} formId={"add-car-form"}>
         <label>Marka vozila</label>
-        <div className="add-car-form-content">
-          <div className="add-car-form-item">
+        <div className={styles["add-car-form-content"]}>
+          <div className={styles["add-car-form-item"]}>
             <label htmlFor="make_name_input">Naziv</label>
             <input
               placeholder="Unesite naziv marke vozila"
@@ -54,7 +55,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
               onChange={(e) => setMakeNameInput(e.target.value)}
             />
           </div>
-          <div className="add-car-form-item">
+          <div className={styles["add-car-form-item"]}>
             <label htmlFor="make_abrv_input">Skraćenica</label>
             <input
               placeholder="Unesite skraćenicu marke vozila"
@@ -68,8 +69,8 @@ export default function AddVehicleDialog({ open, setOpen }) {
           </div>
         </div>
         <label>Model vozila</label>
-        <div className="add-car-form-content">
-          <div className="add-car-form-item">
+        <div className={styles["add-car-form-content"]}>
+          <div className={styles["add-car-form-item"]}>
             <label htmlFor="model_name_input">Naziv</label>
             <input
               placeholder="Unesite naziv modela vozila"
@@ -81,7 +82,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
               onChange={(e) => setModelNameInput(e.target.value)}
             />
           </div>
-          <div className="add-car-form-item">
+          <div className={styles["add-car-form-item"]}>
             <label htmlFor="model_abrv_input">Skraćenica</label>
             <input
               placeholder="Unesite skraćenicu modela vozila"
