@@ -18,4 +18,17 @@ export default function deleteVehicle(
   if (vehicleModelIndex > -1) {
     vehicleModelData.splice(vehicleModelIndex, 1);
   }
+
+  // if the last remaining model under a certain vehicle make is deleted also delete the vehicle make
+
+  const remainingModels = vehicleModelData.some(
+    (model) => model.makeid === vehicleMake.id
+  );
+
+  if (!remainingModels) {
+    const vehicleMakeIndex = vehicleMakeData.indexOf(vehicleMake);
+    if (vehicleMakeIndex > -1) {
+      vehicleMakeData.splice(vehicleMakeIndex, 1);
+    }
+  }
 }
