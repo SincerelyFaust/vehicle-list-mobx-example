@@ -38,7 +38,9 @@ const Home = observer(function Home() {
             <>
               <ListItem
                 key={vehicleModel.id}
+                vehicleMakeName={vehicleMake.name}
                 vehicleMakeAbrv={vehicleMake.abrv}
+                vehicleModelName={vehicleModel.name}
                 vehicleModelAbrv={vehicleModel.abrv}
               />
             </>
