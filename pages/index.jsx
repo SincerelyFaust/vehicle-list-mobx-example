@@ -5,9 +5,11 @@ import ButtonsLayout from "@/layouts/ButtonsLayout";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
+import SortVehicle from "@/common/SortVehicle";
 
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
+  const [sortChoice, setSortChoice] = useState("");
 
   const store = useStore();
 
@@ -25,7 +27,19 @@ const Home = observer(function Home() {
         >
           Dodaj
         </button>
-        <button onClick={() => {}}>Sortiraj</button>
+        <select
+          value={sortChoice}
+          onChange={(e) => {
+            setSortChoice(e.target.value);
+            SortVehicle(store.VehicleMake, store.VehicleModel, e.target.value);
+          }}
+        >
+          <option value="" selected disabled hidden>
+            Sortiraj
+          </option>
+          <option value={"alphabetical-make"}>Abecedno - marke</option>
+          <option value={"alphabetical-model"}>Abecedno - modeli</option>
+        </select>
         <button onClick={() => {}}>Filtriraj</button>
       </ButtonsLayout>
       <ListLayout>
