@@ -10,6 +10,7 @@ import SortVehicle from "@/common/SortVehicle";
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
   const [sortChoice, setSortChoice] = useState("");
+  const [filterChoice, setFilterChoice] = useState("");
 
   const store = useStore();
 
@@ -40,10 +41,26 @@ const Home = observer(function Home() {
           <option value={"alphabetical-make"}>Abecedno - marke</option>
           <option value={"alphabetical-model"}>Abecedno - modeli</option>
         </select>
-        <button onClick={() => {}}>Filtriraj</button>
+        <select
+          value={filterChoice}
+          onChange={(e) => {
+            setFilterChoice(e.target.value);
+            store.setFilterChoice(e.target.value);
+          }}
+        >
+          <option value="" selected disabled hidden>
+            Filtriraj
+          </option>
+          <option value="">Sve marke</option>
+          {store.VehicleMake.map((make) => (
+            <option key={make.id} value={make.id}>
+              {make.abrv}
+            </option>
+          ))}
+        </select>
       </ButtonsLayout>
       <ListLayout>
-        {store.VehicleModel.map((vehicleModel) => {
+        {store.filteredVehicleModelData.map((vehicleModel) => {
           const vehicleMake = store.VehicleMake.find(
             (make) => make.id === vehicleModel.makeid
           );

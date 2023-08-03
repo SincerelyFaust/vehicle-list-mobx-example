@@ -5,6 +5,7 @@ import deleteVehicle from "@/common/DeleteVehicle";
 export class VehicleStore {
   VehicleMake = [];
   VehicleModel = [];
+  filterChoice = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,6 +17,21 @@ export class VehicleStore {
     this.VehicleMake = data.VehicleMake;
     this.VehicleModel = data.VehicleModel;
   };
+
+  setFilterChoice(newChoice) {
+    this.filterChoice = newChoice;
+  }
+
+  get filteredVehicleModelData() {
+    if (!this.filterChoice) {
+      return this.VehicleModel;
+    }
+
+    const vehicleMake = this.VehicleMake.find(
+      (make) => make.id === +this.filterChoice
+    );
+    return this.VehicleModel.filter((model) => model.makeid === vehicleMake.id);
+  }
 
   createVehicle(
     newVehicleMakeName,
