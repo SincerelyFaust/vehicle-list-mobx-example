@@ -8,22 +8,7 @@
     gap: 1rem;
 }
 
-.buttons-layout button {
-    color: white;
-    min-width: 5rem;
-    padding: 0 1rem;
-    height: 2.2rem;
-    border-radius: 0.4rem;
-    background-color: rgb(58, 58, 58);
-    border: none;
-    cursor: pointer;
-}
-
-.buttons-layout button:hover {
-    background-color: rgb(44, 44, 44);
-}
-
-.buttons-layout select {
+.buttons-layout button, .buttons-layout select {
     color: white;
     min-width: 5rem;
     padding: 0 1rem;
@@ -37,6 +22,6 @@
     outline: none;
 }
 
-.buttons-layout select:hover {
+.buttons-layout button:hover, .buttons-layout select:hover {
     background-color: rgb(44, 44, 44);
 }
