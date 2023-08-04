@@ -20,8 +20,26 @@
   border-radius: 0.3rem;
 }
 
+.add-car-form-item input:focus {
+    outline: #7c7c7c solid 1px;
+  }
+
 .add-car-form-item label {
   color: white;
   font-size: 0.9rem;
   font-weight: 300;
+}
+
+.add-car-form-item select {
+    height: 2.4rem;
+    color: #fff;
+    border: none;
+    padding: 0 1rem;
+    background-color: rgb(66, 66, 66);
+    border-radius: 0.3rem;
+    outline: none;
+}
+
+.add-car-form-item select:focus {
+    outline: #7c7c7c solid 1px;
 }

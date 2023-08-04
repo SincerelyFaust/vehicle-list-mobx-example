@@ -3,12 +3,14 @@ import { useState } from "react";
 import Form from "@/components/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/AddVehicleDialog.module.css";
+import { useEffect } from "react";
 
 export default function AddVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
   const [makeAbrvInput, setMakeAbrvInput] = useState("");
   const [modelNameInput, setModelNameInput] = useState("");
   const [modelAbrvInput, setModelAbrvInput] = useState("");
+  const [makeSelected, setMakeSelected] = useState("1");
 
   const store = useStore();
 
@@ -18,12 +20,29 @@ export default function AddVehicleDialog({ open, setOpen }) {
     setMakeAbrvInput("");
     setModelNameInput("");
     setModelAbrvInput("");
+    setMakeSelected("1");
   }
+
+  useEffect(() => {
+    function findMake(makeId) {
+      const vehicleMake = store.VehicleMake.find((make) => make.id === makeId);
+
+      setMakeNameInput(vehicleMake.name);
+      setMakeAbrvInput(vehicleMake.abrv);
+    }
+
+    if (+makeSelected !== 0) {
+      findMake(+makeSelected);
+    } else {
+      setMakeNameInput("");
+      setMakeAbrvInput("");
+    }
+  }, [makeSelected, store.VehicleMake]);
 
   function handleSubmit() {
     event.preventDefault();
 
-    store.createVehicle(
+    store.addVehicle(
       makeNameInput,
       makeAbrvInput,
       modelNameInput,
@@ -32,6 +51,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
 
     resetState();
   }
+
   return (
     <Dialog
       title={"Dodaj novo vozilo"}
@@ -44,29 +64,55 @@ export default function AddVehicleDialog({ open, setOpen }) {
         <label>Marka vozila</label>
         <div className={styles["add-car-form-content"]}>
           <div className={styles["add-car-form-item"]}>
-            <label htmlFor="make_name_input">Naziv</label>
-            <input
-              placeholder="Unesite naziv marke vozila"
-              required
-              form="add-car-form"
-              id="make_name_input"
-              type="text"
-              value={makeNameInput}
-              onChange={(e) => setMakeNameInput(e.target.value)}
-            />
+            <select
+              onChange={(e) => {
+                setMakeSelected(e.target.value);
+              }}
+            >
+              {store.VehicleMake.map((vehicleMake) => {
+                return (
+                  <>
+                    <option
+                      selected={vehicleMake.id === 1}
+                      key={vehicleMake.id}
+                      value={vehicleMake.id}
+                    >
+                      {vehicleMake.abrv}
+                    </option>
+                  </>
+                );
+              })}
+              <option value={0}>+ Dodaj</option>
+            </select>
           </div>
-          <div className={styles["add-car-form-item"]}>
-            <label htmlFor="make_abrv_input">Skraćenica</label>
-            <input
-              placeholder="Unesite skraćenicu marke vozila"
-              required
-              form="add-car-form"
-              id="make_abrv_input"
-              type="text"
-              value={makeAbrvInput}
-              onChange={(e) => setMakeAbrvInput(e.target.value)}
-            />
-          </div>
+          {makeSelected === "0" ? (
+            <>
+              <div className={styles["add-car-form-item"]}>
+                <label htmlFor="make_name_input">Naziv</label>
+                <input
+                  placeholder="Unesite naziv marke vozila"
+                  required
+                  form="add-car-form"
+                  id="make_name_input"
+                  type="text"
+                  value={makeNameInput}
+                  onChange={(e) => setMakeNameInput(e.target.value)}
+                />
+              </div>
+              <div className={styles["add-car-form-item"]}>
+                <label htmlFor="make_abrv_input">Skraćenica</label>
+                <input
+                  placeholder="Unesite skraćenicu marke vozila"
+                  required
+                  form="add-car-form"
+                  id="make_abrv_input"
+                  type="text"
+                  value={makeAbrvInput}
+                  onChange={(e) => setMakeAbrvInput(e.target.value)}
+                />
+              </div>
+            </>
+          ) : null}
         </div>
         <label>Model vozila</label>
         <div className={styles["add-car-form-content"]}>
