@@ -2,7 +2,7 @@ import Dialog from "@/components/Dialog";
 import { useState } from "react";
 import Form from "@/components/Form";
 import { useStore } from "@/common/StoreProvider";
-import styles from "@/components/AddVehicleDialog.module.css";
+import styles from "@/components/StyledDialog.module.css";
 import { useEffect } from "react";
 
 export default function AddVehicleDialog({ open, setOpen }) {
@@ -62,8 +62,8 @@ export default function AddVehicleDialog({ open, setOpen }) {
     >
       <Form handleSubmit={handleSubmit} formId={"add-car-form"}>
         <label>Marka vozila</label>
-        <div className={styles["add-car-form-content"]}>
-          <div className={styles["add-car-form-item"]}>
+        <div className={styles["form-content"]}>
+          <div className={styles["form-item"]}>
             <select
               onChange={(e) => {
                 setMakeSelected(e.target.value);
@@ -87,24 +87,24 @@ export default function AddVehicleDialog({ open, setOpen }) {
           </div>
           {makeSelected === "0" ? (
             <>
-              <div className={styles["add-car-form-item"]}>
+              <div className={styles["form-item"]}>
                 <label htmlFor="make_name_input">Naziv</label>
                 <input
                   placeholder="Unesite naziv marke vozila"
                   required
-                  form="add-car-form"
+                  form={"add-car-form"}
                   id="make_name_input"
                   type="text"
                   value={makeNameInput}
                   onChange={(e) => setMakeNameInput(e.target.value)}
                 />
               </div>
-              <div className={styles["add-car-form-item"]}>
+              <div className={styles["form-item"]}>
                 <label htmlFor="make_abrv_input">Skraćenica</label>
                 <input
                   placeholder="Unesite skraćenicu marke vozila"
                   required
-                  form="add-car-form"
+                  form={"add-car-form"}
                   id="make_abrv_input"
                   type="text"
                   value={makeAbrvInput}
@@ -115,25 +115,25 @@ export default function AddVehicleDialog({ open, setOpen }) {
           ) : null}
         </div>
         <label>Model vozila</label>
-        <div className={styles["add-car-form-content"]}>
-          <div className={styles["add-car-form-item"]}>
+        <div className={styles["form-content"]}>
+          <div className={styles["form-item"]}>
             <label htmlFor="model_name_input">Naziv</label>
             <input
               placeholder="Unesite naziv modela vozila"
               required
-              form="add-car-form"
+              form={"add-car-form"}
               id="model_name_input"
               type="text"
               value={modelNameInput}
               onChange={(e) => setModelNameInput(e.target.value)}
             />
           </div>
-          <div className={styles["add-car-form-item"]}>
+          <div className={styles["form-item"]}>
             <label htmlFor="model_abrv_input">Skraćenica</label>
             <input
               placeholder="Unesite skraćenicu modela vozila"
               required
-              form="add-car-form"
+              form={"add-car-form"}
               id="model_abrv_input"
               type="text"
               value={modelAbrvInput}

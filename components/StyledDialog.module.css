@@ -1,16 +1,16 @@
-.add-car-form-content {
+.form-content {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
 
-.add-car-form-item {
+.form-item {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.add-car-form-item input {
+.form-item input {
   height: 2.4rem;
   color: #fff;
   padding: 0 1rem;
@@ -20,17 +20,17 @@
   border-radius: 0.3rem;
 }
 
-.add-car-form-item input:focus {
+.form-item input:focus {
     outline: #7c7c7c solid 1px;
   }
 
-.add-car-form-item label {
+.form-item label {
   color: white;
   font-size: 0.9rem;
   font-weight: 300;
 }
 
-.add-car-form-item select {
+.form-item select {
     height: 2.4rem;
     color: #fff;
     border: none;
@@ -40,6 +40,6 @@
     outline: none;
 }
 
-.add-car-form-item select:focus {
+.form-item select:focus {
     outline: #7c7c7c solid 1px;
 }

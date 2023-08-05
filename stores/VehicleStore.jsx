@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import addVehicle from "@/common/AddVehicle";
 import deleteVehicle from "@/common/DeleteVehicle";
+import editVehicle from "@/common/EditVehicle";
 
 export class VehicleStore {
   VehicleMake = [];
@@ -82,6 +83,41 @@ export class VehicleStore {
       body: JSON.stringify({
         selectedVehicleMakeAbrv,
         selectedVehicleModelAbrv,
+      }),
+    });
+  }
+
+  editVehicle(
+    selectedVehicleMakeAbrv,
+    selectedVehicleModelAbrv,
+    editedVehicleMakeName,
+    editedVehicleMakeAbrv,
+    editedVehicleModelName,
+    editedVehicleModelAbrv
+  ) {
+    editVehicle(
+      this.VehicleMake,
+      this.VehicleModel,
+      selectedVehicleMakeAbrv,
+      selectedVehicleModelAbrv,
+      editedVehicleMakeName,
+      editedVehicleMakeAbrv,
+      editedVehicleModelName,
+      editedVehicleModelAbrv
+    );
+
+    fetch("/api/vehicles", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        selectedVehicleMakeAbrv,
+        selectedVehicleModelAbrv,
+        editedVehicleMakeName,
+        editedVehicleMakeAbrv,
+        editedVehicleModelName,
+        editedVehicleModelAbrv,
       }),
     });
   }

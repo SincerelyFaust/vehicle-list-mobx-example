@@ -6,6 +6,9 @@ export default function ListItem({
   vehicleMakeAbrv,
   vehicleModelName,
   vehicleModelAbrv,
+  setOpenEditVehicleDialog,
+  openEditVehicleDialog,
+  setCurrentVehicle,
 }) {
   const store = useStore();
 
@@ -18,7 +21,19 @@ export default function ListItem({
         {vehicleModelName} <span>({vehicleModelAbrv})</span>
       </p>
       <div className={styles["button-div"]}>
-        <button onClick={() => {}}>Uredi</button>
+        <button
+          onClick={() => {
+            setCurrentVehicle({
+              vehicleMakeName,
+              vehicleMakeAbrv,
+              vehicleModelName,
+              vehicleModelAbrv,
+            });
+            setOpenEditVehicleDialog(!openEditVehicleDialog);
+          }}
+        >
+          Uredi
+        </button>
         <button
           onClick={() => store.deleteVehicle(vehicleMakeAbrv, vehicleModelAbrv)}
         >

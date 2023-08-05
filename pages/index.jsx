@@ -6,11 +6,19 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
 import SortVehicle from "@/common/SortVehicle";
+import EditVehicleDialog from "@/components/EditVehicleDialog";
 
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
   const [sortChoice, setSortChoice] = useState("");
   const [filterChoice, setFilterChoice] = useState("");
+  const [openEditVehicleDialog, setOpenEditVehicleDialog] = useState(false);
+  const [currentVehicle, setCurrentVehicle] = useState({
+    vehicleMakeName: "",
+    vehicleMakeAbrv: "",
+    vehicleModelName: "",
+    vehicleModelAbrv: "",
+  });
 
   const store = useStore();
 
@@ -19,6 +27,11 @@ const Home = observer(function Home() {
       <AddVehicleDialog
         open={openAddVehicleDialog}
         setOpen={setOpenAddVehicleDialog}
+      />
+      <EditVehicleDialog
+        open={openEditVehicleDialog}
+        setOpen={setOpenEditVehicleDialog}
+        initialData={currentVehicle}
       />
       <ButtonsLayout>
         <button
@@ -73,6 +86,9 @@ const Home = observer(function Home() {
                 vehicleMakeAbrv={vehicleMake.abrv}
                 vehicleModelName={vehicleModel.name}
                 vehicleModelAbrv={vehicleModel.abrv}
+                setOpenEditVehicleDialog={setOpenEditVehicleDialog}
+                openEditVehicleDialog={openEditVehicleDialog}
+                setCurrentVehicle={setCurrentVehicle}
               />
             </>
           );

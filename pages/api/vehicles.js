@@ -1,6 +1,7 @@
 import { vehiclesData } from "@/common/VehiclesData";
 import addVehicle from "@/common/AddVehicle";
 import deleteVehicle from "@/common/DeleteVehicle";
+import editVehicle from "@/common/EditVehicle";
 
 export default function handler(req, res) {
   const { method, body } = req;
@@ -33,9 +34,20 @@ export default function handler(req, res) {
         .status(200)
         .json({ success: true, message: "Car deleted successfully." });
       break;
-    default:
-      res.setHeader("Allow", ["GET", "POST", "DELETE"]);
-      res.status(405).json({ error: "Method Not Allowed" });
+    case "PATCH":
+      editVehicle(
+        vehiclesData.VehicleMake,
+        vehiclesData.VehicleModel,
+        body.selectedVehicleMakeAbrv,
+        body.selectedVehicleModelAbrv,
+        body.editedVehicleMakeName,
+        body.editedVehicleMakeAbrv,
+        body.editedVehicleModelName,
+        body.editedVehicleModelAbrv
+      );
+      res
+        .status(200)
+        .json({ success: true, message: "Car edited successfully." });
       break;
   }
 }
