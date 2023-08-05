@@ -6,6 +6,12 @@
     justify-content: flex-end;
     align-items: center;
     gap: 1rem;
+
+
+    @media (max-width: 980px) {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 .buttons-layout button, .buttons-layout select {
@@ -20,6 +26,12 @@
     text-align: center;
     appearance: none;
     outline: none;
+
+    @media (max-width: 980px) {
+        width: unset;
+        flex: 1;
+        flex-wrap: wrap;
+    }
 }
 
 .buttons-layout button:hover, .buttons-layout select:hover {

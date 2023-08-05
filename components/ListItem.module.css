@@ -21,7 +21,7 @@
 
 .list-item p {
     color: white;
-    width: 18rem;
+    min-width: 17%;
 }
 
 .list-item span {

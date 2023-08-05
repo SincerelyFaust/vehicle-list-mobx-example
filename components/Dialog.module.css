@@ -43,6 +43,11 @@
     justify-content: flex-end;
     align-items: center;
     gap: 1rem;
+
+    @media (max-width: 550px) {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 .dialog-buttons-container button, .dialog-buttons-container input {
@@ -53,6 +58,11 @@
     background-color: rgb(58, 58, 58);
     border: none;
     cursor: pointer;
+
+    @media (max-width: 550px) {
+        width: unset;
+        flex: 1;
+    }
 }
 
 .dialog-buttons-container button:hover, .dialog-buttons-container input:hover {
