@@ -51,8 +51,10 @@ const Home = observer(function Home() {
           <option value="" selected disabled hidden>
             Sortiraj
           </option>
-          <option value={"alphabetical-make"}>Abecedno - marke</option>
-          <option value={"alphabetical-model"}>Abecedno - modeli</option>
+          <optgroup label="Abecedno">
+            <option value={"alphabetical-make"}>Marke</option>
+            <option value={"alphabetical-model"}>Modeli</option>
+          </optgroup>
         </select>
         <select
           value={filterChoice}
