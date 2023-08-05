@@ -67,7 +67,7 @@ const Home = observer(function Home() {
           <option value="">Sve marke</option>
           {store.VehicleMake.map((make) => (
             <option key={make.id} value={make.id}>
-              {make.abrv}
+              {make.name} ({make.abrv})
             </option>
           ))}
         </select>
