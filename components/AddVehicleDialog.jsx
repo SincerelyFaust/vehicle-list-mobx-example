@@ -27,16 +27,22 @@ export default function AddVehicleDialog({ open, setOpen }) {
     function findMake(makeId) {
       const vehicleMake = store.VehicleMake.find((make) => make.id === makeId);
 
-      setMakeNameInput(vehicleMake.name);
-      setMakeAbrvInput(vehicleMake.abrv);
+      if (vehicleMake) {
+        setMakeNameInput(vehicleMake.name);
+        setMakeAbrvInput(vehicleMake.abrv);
+      } else {
+        if (store.VehicleMake.length > 0) {
+          const firstAvailableMake = store.VehicleMake[0];
+          setMakeSelected(+firstAvailableMake.id);
+        } else {
+          setMakeSelected("0");
+          setMakeNameInput("");
+          setMakeAbrvInput("");
+        }
+      }
     }
 
-    if (+makeSelected !== 0) {
-      findMake(+makeSelected);
-    } else {
-      setMakeNameInput("");
-      setMakeAbrvInput("");
-    }
+    findMake(+makeSelected);
   }, [makeSelected, store.VehicleMake]);
 
   function handleSubmit() {
@@ -68,15 +74,12 @@ export default function AddVehicleDialog({ open, setOpen }) {
               onChange={(e) => {
                 setMakeSelected(e.target.value);
               }}
+              value={makeSelected}
             >
               {store.VehicleMake.map((vehicleMake) => {
                 return (
                   <>
-                    <option
-                      selected={vehicleMake.id === 1}
-                      key={vehicleMake.id}
-                      value={vehicleMake.id}
-                    >
+                    <option key={vehicleMake.id} value={vehicleMake.id}>
                       {vehicleMake.abrv}
                     </option>
                   </>
@@ -85,7 +88,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
               <option value={0}>+ Dodaj</option>
             </select>
           </div>
-          {makeSelected === "0" ? (
+          {makeSelected === "0" || store.VehicleMake.length < 1 ? (
             <>
               <div className={styles["form-item"]}>
                 <label htmlFor="make_name_input">Naziv</label>
