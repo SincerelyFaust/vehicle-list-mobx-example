@@ -21,7 +21,11 @@
 
 .list-item p {
     color: white;
-    min-width: 17%;
+    min-width: 17rem;
+
+    @media (max-width: 980px) {
+      min-width: unset;
+    }
 }
 
 .list-item span {

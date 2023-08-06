@@ -7,6 +7,7 @@ import { useState } from "react";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
 import SortVehicle from "@/common/SortVehicle";
 import EditVehicleDialog from "@/components/EditVehicleDialog";
+import Pages from "@/components/Pages";
 
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
@@ -19,8 +20,16 @@ const Home = observer(function Home() {
     vehicleModelName: "",
     vehicleModelAbrv: "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
 
   const store = useStore();
+
+  const itemsToDisplay = 8;
+
+  function displayVehicles() {
+    const start = (currentPage - 1) * itemsToDisplay;
+    return store.filteredVehicleModelData.slice(start, start + itemsToDisplay);
+  }
 
   return (
     <>
@@ -75,7 +84,7 @@ const Home = observer(function Home() {
         </select>
       </ButtonsLayout>
       <ListLayout>
-        {store.filteredVehicleModelData.map((vehicleModel) => {
+        {displayVehicles().map((vehicleModel) => {
           const vehicleMake = store.VehicleMake.find(
             (make) => make.id === vehicleModel.makeid
           );
@@ -96,6 +105,12 @@ const Home = observer(function Home() {
           );
         })}
       </ListLayout>
+      <Pages
+        items={store.filteredVehicleModelData.length}
+        displayItems={itemsToDisplay}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </>
   );
 });

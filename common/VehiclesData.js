@@ -81,5 +81,29 @@ export const vehiclesData = {
       name: "Kona",
       abrv: "Kona",
     },
+    {
+      id: 10,
+      makeid: 5,
+      name: "Concept One",
+      abrv: "Concept One",
+    },
+    {
+      id: 11,
+      makeid: 1,
+      name: "M3",
+      abrv: "M3",
+    },
+    {
+      id: 12,
+      makeid: 3,
+      name: "i20",
+      abrv: "i20",
+    },
+    {
+      id: 13,
+      makeid: 2,
+      name: "GT-R R35",
+      abrv: "GT-R R35",
+    },
   ],
 };
