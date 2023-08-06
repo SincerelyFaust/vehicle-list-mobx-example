@@ -1,12 +1,12 @@
 import styles from "@/components/Pages.module.css";
 
 export default function Pages({
-  items,
+  itemCount,
   displayItems,
   currentPage,
   onPageChange,
 }) {
-  const pagesCount = Math.ceil(items / displayItems);
+  const pagesCount = Math.ceil(itemCount / displayItems);
 
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
 

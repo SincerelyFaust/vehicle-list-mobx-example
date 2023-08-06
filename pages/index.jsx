@@ -106,7 +106,7 @@ const Home = observer(function Home() {
         })}
       </ListLayout>
       <Pages
-        items={store.filteredVehicleModelData.length}
+        itemCount={store.filteredVehicleModelData.length}
         displayItems={itemsToDisplay}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
