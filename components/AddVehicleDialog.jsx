@@ -43,7 +43,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
     }
 
     findMake(+makeSelected);
-  }, [makeSelected, store.VehicleMake]);
+  }, [makeSelected, store.VehicleMake, open]);
 
   function handleSubmit() {
     event.preventDefault();
@@ -148,3 +148,15 @@ export default function AddVehicleDialog({ open, setOpen }) {
     </Dialog>
   );
 }
+
+// the bug is that if you delete all cars from the list and go to add new one, select appears but not
+// the fields but you fixed that, the only issue is that the state shows the data from the make whose id is 1
+// instead of blank
+
+// also one more error, after you delete an entire make, the value inside select will switch onto the next one but the data
+// is all wrong is because the value of select stays at "1" which is initial value but nothing under that id exists so it
+// goes crazy and gives stupid stuff
+
+// also one more error, trying adding a car on initial load and then add it again with same model and abrv, this happens due
+// to an issue with resetState() since even on initial load if you just open it, click Zatvori and go in again, it won't add
+// it the right way
