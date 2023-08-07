@@ -34,15 +34,17 @@ export default function AddVehicleDialog({ open, setOpen }) {
         if (store.VehicleMake.length > 0) {
           const firstAvailableMake = store.VehicleMake[0];
           setMakeSelected(+firstAvailableMake.id);
-        } else {
-          setMakeSelected("0");
-          setMakeNameInput("");
-          setMakeAbrvInput("");
         }
       }
     }
 
-    findMake(+makeSelected);
+    if (+makeSelected !== 0) {
+      findMake(+makeSelected);
+    } else {
+      setMakeSelected("0");
+      setMakeNameInput("");
+      setMakeAbrvInput("");
+    }
   }, [makeSelected, store.VehicleMake, open]);
 
   function handleSubmit() {
