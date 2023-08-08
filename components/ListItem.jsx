@@ -1,5 +1,6 @@
 import styles from "@/components/ListItem.module.css";
 import { useStore } from "@/common/StoreProvider";
+import { Edit, XCircle } from "lucide-react";
 
 export default function ListItem({
   vehicleMakeName,
@@ -32,7 +33,7 @@ export default function ListItem({
             setOpenEditVehicleDialog(!openEditVehicleDialog);
           }}
         >
-          Uredi
+          <Edit size={16} />
         </button>
         <button
           onClick={() => {
@@ -50,7 +51,7 @@ export default function ListItem({
             });
           }}
         >
-          Izbriši
+          <XCircle size={16} />
         </button>
       </div>
     </li>
