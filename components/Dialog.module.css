@@ -57,7 +57,8 @@
 
 .dialog-buttons-container button, .dialog-buttons-container input {
     color: white;
-    width: 5rem;
+    min-width: 5rem;
+    padding: 0 0.8rem;
     height: 2.2rem;
     border-radius: 0.4rem;
     background-color: rgb(58, 58, 58);
@@ -72,4 +73,9 @@
 
 .dialog-buttons-container button:hover, .dialog-buttons-container input:hover {
     background-color: rgb(72, 72, 72);
+}
+
+.dialog-buttons-container svg {
+    vertical-align: middle;
+    margin-right: 0.3rem;
 }

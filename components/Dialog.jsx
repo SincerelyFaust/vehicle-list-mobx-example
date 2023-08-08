@@ -1,5 +1,6 @@
 import styles from "@/components/Dialog.module.css";
 import { useRef, useEffect } from "react";
+import { Check, X } from "lucide-react";
 
 export default function Dialog({ open, title, children, form, resetState }) {
   const dialogRef = useRef(null);
@@ -25,8 +26,12 @@ export default function Dialog({ open, title, children, form, resetState }) {
         <p className={styles["dialog-title"]}>{title}</p>
         {children}
         <div className={styles["dialog-buttons-container"]}>
-          <input type="submit" form={form} value={"Potvrdi"} />
-          <button onClick={resetState}>Zatvori</button>
+          <button form={form} type="submit">
+            <Check size={16} /> Potvrdi
+          </button>
+          <button onClick={resetState}>
+            <X size={16} /> Zatvori
+          </button>
         </div>
       </dialog>
     </div>
