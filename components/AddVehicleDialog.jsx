@@ -57,6 +57,19 @@ export default function AddVehicleDialog({ open, setOpen }) {
       modelAbrvInput
     );
 
+    fetch("/api/vehicles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        makeNameInput,
+        makeAbrvInput,
+        modelNameInput,
+        modelAbrvInput,
+      }),
+    });
+
     resetState();
   }
 

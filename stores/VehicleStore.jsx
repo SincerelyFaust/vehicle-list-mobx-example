@@ -40,8 +40,6 @@ export class VehicleStore {
     newVehicleModelName,
     newVehicleModelAbrv
   ) {
-    // add a new vehicle to the mobx store
-
     addVehicle(
       this.VehicleMake,
       this.VehicleModel,
@@ -50,21 +48,6 @@ export class VehicleStore {
       newVehicleModelName,
       newVehicleModelAbrv
     );
-
-    // add a new vehicle to the api
-
-    fetch("/api/vehicles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        newVehicleMakeName,
-        newVehicleMakeAbrv,
-        newVehicleModelName,
-        newVehicleModelAbrv,
-      }),
-    });
   }
 
   deleteVehicle(selectedVehicleMakeAbrv, selectedVehicleModelAbrv) {
@@ -74,17 +57,6 @@ export class VehicleStore {
       selectedVehicleMakeAbrv,
       selectedVehicleModelAbrv
     );
-
-    fetch("/api/vehicles", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        selectedVehicleMakeAbrv,
-        selectedVehicleModelAbrv,
-      }),
-    });
   }
 
   editVehicle(
@@ -109,22 +81,5 @@ export class VehicleStore {
       editedVehicleModelName,
       editedVehicleModelAbrv
     );
-
-    fetch("/api/vehicles", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        selectedVehicleMakeName,
-        selectedVehicleMakeAbrv,
-        selectedVehicleModelName,
-        selectedVehicleModelAbrv,
-        editedVehicleMakeName,
-        editedVehicleMakeAbrv,
-        editedVehicleModelName,
-        editedVehicleModelAbrv,
-      }),
-    });
   }
 }

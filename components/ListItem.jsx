@@ -35,7 +35,20 @@ export default function ListItem({
           Uredi
         </button>
         <button
-          onClick={() => store.deleteVehicle(vehicleMakeAbrv, vehicleModelAbrv)}
+          onClick={() => {
+            store.deleteVehicle(vehicleMakeAbrv, vehicleModelAbrv);
+
+            fetch("/api/vehicles", {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                vehicleMakeAbrv,
+                vehicleModelAbrv,
+              }),
+            });
+          }}
         >
           Izbriši
         </button>

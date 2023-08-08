@@ -42,6 +42,20 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
       modelAbrvInput
     );
 
+    fetch("/api/vehicles", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        initialData,
+        makeNameInput,
+        makeAbrvInput,
+        modelNameInput,
+        modelAbrvInput,
+      }),
+    });
+
     resetState();
   }
 

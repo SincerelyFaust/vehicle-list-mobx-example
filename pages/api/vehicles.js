@@ -14,10 +14,10 @@ export default function handler(req, res) {
       addVehicle(
         vehiclesData.VehicleMake,
         vehiclesData.VehicleModel,
-        body.newVehicleMakeName,
-        body.newVehicleMakeAbrv,
-        body.newVehicleModelName,
-        body.newVehicleModelAbrv
+        body.makeNameInput,
+        body.makeAbrvInput,
+        body.modelNameInput,
+        body.modelAbrvInput
       );
       res
         .status(200)
@@ -27,8 +27,8 @@ export default function handler(req, res) {
       deleteVehicle(
         vehiclesData.VehicleModel,
         vehiclesData.VehicleMake,
-        body.selectedVehicleMakeAbrv,
-        body.selectedVehicleModelAbrv
+        body.vehicleMakeAbrv,
+        body.vehicleModelAbrv
       );
       res
         .status(200)
@@ -38,14 +38,14 @@ export default function handler(req, res) {
       editVehicle(
         vehiclesData.VehicleMake,
         vehiclesData.VehicleModel,
-        body.selectedVehicleMakeName,
-        body.selectedVehicleMakeAbrv,
-        body.selectedVehicleModelName,
-        body.selectedVehicleModelAbrv,
-        body.editedVehicleMakeName,
-        body.editedVehicleMakeAbrv,
-        body.editedVehicleModelName,
-        body.editedVehicleModelAbrv
+        body.initialData.vehicleMakeName,
+        body.initialData.vehicleMakeAbrv,
+        body.initialData.vehicleModelName,
+        body.initialData.vehicleModelAbrv,
+        body.makeNameInput,
+        body.makeAbrvInput,
+        body.modelNameInput,
+        body.modelAbrvInput
       );
       res
         .status(200)
