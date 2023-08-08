@@ -88,7 +88,9 @@ export class VehicleStore {
   }
 
   editVehicle(
+    selectedVehicleMakeName,
     selectedVehicleMakeAbrv,
+    selectedVehicleModelName,
     selectedVehicleModelAbrv,
     editedVehicleMakeName,
     editedVehicleMakeAbrv,
@@ -98,7 +100,9 @@ export class VehicleStore {
     editVehicle(
       this.VehicleMake,
       this.VehicleModel,
+      selectedVehicleMakeName,
       selectedVehicleMakeAbrv,
+      selectedVehicleModelName,
       selectedVehicleModelAbrv,
       editedVehicleMakeName,
       editedVehicleMakeAbrv,
@@ -112,7 +116,9 @@ export class VehicleStore {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        selectedVehicleMakeName,
         selectedVehicleMakeAbrv,
+        selectedVehicleModelName,
         selectedVehicleModelAbrv,
         editedVehicleMakeName,
         editedVehicleMakeAbrv,

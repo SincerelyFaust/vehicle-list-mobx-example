@@ -1,35 +1,40 @@
 export default function editVehicle(
   vehicleMakeData,
   vehicleModelData,
+  selectedVehicleMakeName,
   selectedVehicleMakeAbrv,
+  selectedVehicleModelName,
   selectedVehicleModelAbrv,
   editedVehicleMakeName,
   editedVehicleMakeAbrv,
   editedVehicleModelName,
   editedVehicleModelAbrv
 ) {
-  const vehicleMake = vehicleMakeData.find(
-    (make) => make.abrv === selectedVehicleMakeAbrv
-  );
-
-  const vehicleModel = vehicleModelData.find(
-    (model) => model.abrv === selectedVehicleModelAbrv
-  );
-
   if (
+    selectedVehicleMakeName === editedVehicleMakeName &&
     selectedVehicleMakeAbrv === editedVehicleMakeAbrv &&
-    vehicleMake.name === editedVehicleMakeName &&
-    selectedVehicleModelAbrv === editedVehicleModelAbrv &&
-    vehicleModel.name === editedVehicleModelName
+    selectedVehicleModelName === editedVehicleModelName &&
+    selectedVehicleModelAbrv === editedVehicleModelAbrv
   )
     return;
 
-  const vehicleModelIndex = vehicleModelData.findIndex(
-    (model) =>
-      model.abrv === selectedVehicleModelAbrv && model.makeid == vehicleMake.id
+  const vehicleMake = vehicleMakeData.find(
+    (make) =>
+      make.name === selectedVehicleMakeName &&
+      make.abrv === selectedVehicleMakeAbrv
   );
 
-  if (editedVehicleMakeAbrv || editedVehicleMakeName) {
+  const vehicleModelIndex = vehicleModelData.findIndex(
+    (model) =>
+      model.name === selectedVehicleModelName &&
+      model.abrv === selectedVehicleModelAbrv &&
+      model.makeid == vehicleMake.id
+  );
+
+  if (
+    selectedVehicleMakeName !== editedVehicleMakeName ||
+    selectedVehicleMakeAbrv !== editedVehicleMakeAbrv
+  ) {
     const findVehicleMake = vehicleMakeData.find(
       (make) =>
         make.abrv === editedVehicleMakeAbrv &&
@@ -52,8 +57,8 @@ export default function editVehicle(
     }
   }
 
-  if (editedVehicleModelName)
+  if (selectedVehicleModelName !== editedVehicleModelName)
     vehicleModelData[vehicleModelIndex].name = editedVehicleModelName;
-  if (editedVehicleModelAbrv)
+  if (selectedVehicleModelAbrv !== editedVehicleModelAbrv)
     vehicleModelData[vehicleModelIndex].abrv = editedVehicleModelAbrv;
 }

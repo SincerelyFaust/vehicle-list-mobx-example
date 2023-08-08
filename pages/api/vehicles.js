@@ -38,7 +38,9 @@ export default function handler(req, res) {
       editVehicle(
         vehiclesData.VehicleMake,
         vehiclesData.VehicleModel,
+        body.selectedVehicleMakeName,
         body.selectedVehicleMakeAbrv,
+        body.selectedVehicleModelName,
         body.selectedVehicleModelAbrv,
         body.editedVehicleMakeName,
         body.editedVehicleMakeAbrv,

@@ -32,7 +32,9 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
     event.preventDefault();
 
     store.editVehicle(
+      initialData.vehicleMakeName,
       initialData.vehicleMakeAbrv,
+      initialData.vehicleModelName,
       initialData.vehicleModelAbrv,
       makeNameInput,
       makeAbrvInput,
