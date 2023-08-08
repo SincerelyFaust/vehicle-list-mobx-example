@@ -50,7 +50,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
   function handleSubmit() {
     event.preventDefault();
 
-    store.addVehicle(
+    store.addVehicleToStore(
       makeNameInput,
       makeAbrvInput,
       modelNameInput,

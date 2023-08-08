@@ -31,7 +31,7 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
   function handleSubmit() {
     event.preventDefault();
 
-    store.editVehicle(
+    store.editVehicleToStore(
       initialData.vehicleMakeName,
       initialData.vehicleMakeAbrv,
       initialData.vehicleModelName,

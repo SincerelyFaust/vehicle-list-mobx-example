@@ -36,7 +36,7 @@ export default function ListItem({
         </button>
         <button
           onClick={() => {
-            store.deleteVehicle(vehicleMakeAbrv, vehicleModelAbrv);
+            store.deleteVehicleToStore(vehicleMakeAbrv, vehicleModelAbrv);
 
             fetch("/api/vehicles", {
               method: "DELETE",

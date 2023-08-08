@@ -34,7 +34,7 @@ export class VehicleStore {
     return this.VehicleModel.filter((model) => model.makeid === vehicleMake.id);
   }
 
-  addVehicle(
+  addVehicleToStore(
     newVehicleMakeName,
     newVehicleMakeAbrv,
     newVehicleModelName,
@@ -50,7 +50,7 @@ export class VehicleStore {
     );
   }
 
-  deleteVehicle(selectedVehicleMakeAbrv, selectedVehicleModelAbrv) {
+  deleteVehicleToStore(selectedVehicleMakeAbrv, selectedVehicleModelAbrv) {
     deleteVehicle(
       this.VehicleModel,
       this.VehicleMake,
@@ -59,7 +59,7 @@ export class VehicleStore {
     );
   }
 
-  editVehicle(
+  editVehicleToStore(
     selectedVehicleMakeName,
     selectedVehicleMakeAbrv,
     selectedVehicleModelName,
