@@ -118,9 +118,12 @@ const Home = observer(function Home() {
 export default Home;
 
 export async function getServerSideProps() {
-  const response = await fetch("http://localhost:3000/api/vehicles", {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/vehicles`,
+    {
+      method: "GET",
+    }
+  );
   const { VehicleMake, VehicleModel } = await response.json();
   return {
     props: {
