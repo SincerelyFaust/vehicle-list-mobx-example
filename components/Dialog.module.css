@@ -55,7 +55,7 @@
     }
 }
 
-.dialog-buttons-container button, .dialog-buttons-container input {
+.dialog-buttons-container button {
     color: white;
     min-width: 5rem;
     padding: 0 0.8rem;
@@ -71,7 +71,7 @@
     }
 }
 
-.dialog-buttons-container button:hover, .dialog-buttons-container input:hover {
+.dialog-buttons-container button:hover {
     background-color: rgb(72, 72, 72);
 }
 

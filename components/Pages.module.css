@@ -4,23 +4,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    padding: 0 2rem;
-  }
-
-  .page-buttons-div {
-    max-width: 60%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0.6rem
+    gap: 1.6rem;
   }
   
-  .page {
+  .page-button {
     color: white;
-    height: 2rem;
+    min-height: 2.2rem;
     border-radius: 0.4rem;
     background-color: rgb(58, 58, 58);
     border: none;
@@ -29,35 +18,49 @@
     appearance: none;
     outline: none;
     padding: 0 0.8rem;
-  
-    @media (max-width: 980px) {
-        width: unset;
-        flex: 1;
-    }
-  }
-
-  .active-page {
-    color: white;
-    height: 2rem;
-    border-radius: 0.4rem;
-    background-color: rgb(144, 144, 144);
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    appearance: none;
-    outline: none;
-    padding: 0 0.8rem;
-  
-    @media (max-width: 980px) {
-        width: unset;
-        flex: 1;
-    }
   }
   
-  .page:hover {
+  .page-button:hover {
     background-color: rgb(44, 44, 44);
   }
 
-  .active-page:hover {
-    background-color: rgb(100, 100, 100);
+  .page-button svg {
+    vertical-align: middle;
+}
+
+.change-page-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.change-page-form p {
+  color: rgb(125, 125, 125);
+}
+
+.change-page-input {
+    height: 2.2rem;
+    color: #fff;
+    width: 2.6rem;
+    padding: 0 0.2rem;
+    border: none;
+    outline: none;
+    background-color: rgb(66, 66, 66);
+    border-radius: 0.3rem;
+    text-align: center;
+  }
+
+.change-page-input::-webkit-outer-spin-button, .change-page-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.change-page-input input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.change-page-input:focus {
+    outline: #7c7c7c solid 1px;
   }
