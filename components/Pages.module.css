@@ -18,6 +18,7 @@
     appearance: none;
     outline: none;
     padding: 0 0.8rem;
+    outline: 1px solid rgb(85, 85, 85);
   }
   
   .page-button:hover {
