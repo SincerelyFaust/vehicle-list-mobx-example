@@ -9,6 +9,15 @@
     backdrop-filter: blur(0.2rem);
 }
 
+@keyframes animateDialog {
+    0% {
+      transform: scale(90%);
+    }
+    100% {
+      transform: scale(100%);
+    }
+  }
+
 .dialog {
     position: fixed;
     top: 0;
@@ -29,6 +38,8 @@
     justify-content: space-between;
     border-radius: 1rem;
     gap: 2rem;
+    animation: 0.2s ease-in-out 0s 1 animateDialog;
+    outline: 1px solid rgb(85, 85, 85);
 
     @media (max-width: 980px) {
         width: 90%;
@@ -64,6 +75,7 @@
     background-color: rgb(58, 58, 58);
     border: none;
     cursor: pointer;
+    outline: 1px solid rgb(85, 85, 85);
 
     @media (max-width: 550px) {
         width: unset;
