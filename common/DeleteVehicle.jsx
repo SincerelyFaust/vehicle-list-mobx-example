@@ -25,7 +25,12 @@ export default function deleteVehicle(
   );
 
   if (!remainingModels) {
-    const vehicleMakeIndex = vehicleMakeData.indexOf(selectedMake);
+    const findMakeMatch = vehicleMakeData.find(
+      (make) =>
+        make.name === selectedMake.name && make.abrv === selectedMake.abrv
+    );
+
+    const vehicleMakeIndex = vehicleMakeData.indexOf(findMakeMatch);
     if (vehicleMakeIndex > -1) {
       vehicleMakeData.splice(vehicleMakeIndex, 1);
     }
