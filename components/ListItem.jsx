@@ -3,33 +3,26 @@ import { useStore } from "@/common/StoreProvider";
 import { Edit, XCircle } from "lucide-react";
 
 export default function ListItem({
-  vehicleMakeName,
-  vehicleMakeAbrv,
-  vehicleModelName,
-  vehicleModelAbrv,
+  vehicle,
   setOpenEditVehicleDialog,
   openEditVehicleDialog,
   setCurrentVehicle,
 }) {
+  const { make, model } = vehicle;
   const store = useStore();
 
   return (
     <li className={styles["list-item"]}>
       <p>
-        {vehicleMakeName} <span>({vehicleMakeAbrv})</span>
+        {make.name} <span>({make.abrv})</span>
       </p>
       <p>
-        {vehicleModelName} <span>({vehicleModelAbrv})</span>
+        {model.name} <span>({model.abrv})</span>
       </p>
       <div className={styles["button-div"]}>
         <button
           onClick={() => {
-            setCurrentVehicle({
-              vehicleMakeName,
-              vehicleMakeAbrv,
-              vehicleModelName,
-              vehicleModelAbrv,
-            });
+            setCurrentVehicle(vehicle);
             setOpenEditVehicleDialog(!openEditVehicleDialog);
           }}
         >
@@ -37,7 +30,7 @@ export default function ListItem({
         </button>
         <button
           onClick={() => {
-            store.deleteVehicleToStore(vehicleMakeAbrv, vehicleModelAbrv);
+            store.deleteVehicleToStore(vehicle);
 
             fetch("/api/vehicles", {
               method: "DELETE",
@@ -45,8 +38,7 @@ export default function ListItem({
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                vehicleMakeAbrv,
-                vehicleModelAbrv,
+                selectedVehicleData: vehicle,
               }),
             });
           }}

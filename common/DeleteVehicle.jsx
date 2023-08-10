@@ -1,19 +1,11 @@
 export default function deleteVehicle(
-  vehicleModelData,
   vehicleMakeData,
-  selectedVehicleMakeAbrv,
-  selectedVehicleModelAbrv
+  vehicleModelData,
+  selectedVehicleData
 ) {
-  const vehicleMake = vehicleMakeData.find(
-    (make) => make.abrv === selectedVehicleMakeAbrv
-  );
+  const { make: selectedMake, model: selectedModel } = selectedVehicleData;
 
-  const findModelMatch = vehicleModelData.find(
-    (model) =>
-      model.makeid === vehicleMake.id && model.abrv === selectedVehicleModelAbrv
-  );
-
-  const vehicleModelIndex = vehicleModelData.indexOf(findModelMatch);
+  const vehicleModelIndex = vehicleModelData.indexOf(selectedModel);
 
   if (vehicleModelIndex > -1) {
     vehicleModelData.splice(vehicleModelIndex, 1);
@@ -22,11 +14,11 @@ export default function deleteVehicle(
   // if the last remaining model under a certain vehicle make is deleted also delete the vehicle make
 
   const remainingModels = vehicleModelData.some(
-    (model) => model.makeid === vehicleMake.id
+    (model) => model.makeid === selectedMake.id
   );
 
   if (!remainingModels) {
-    const vehicleMakeIndex = vehicleMakeData.indexOf(vehicleMake);
+    const vehicleMakeIndex = vehicleMakeData.indexOf(selectedMake);
     if (vehicleMakeIndex > -1) {
       vehicleMakeData.splice(vehicleMakeIndex, 1);
     }

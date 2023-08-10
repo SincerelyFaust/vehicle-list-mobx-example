@@ -41,13 +41,8 @@ export class VehicleStore {
     addVehicle(this.VehicleMake, this.VehicleModel, newVehicleData);
   }
 
-  deleteVehicleToStore(selectedVehicleMakeAbrv, selectedVehicleModelAbrv) {
-    deleteVehicle(
-      this.VehicleModel,
-      this.VehicleMake,
-      selectedVehicleMakeAbrv,
-      selectedVehicleModelAbrv
-    );
+  deleteVehicleToStore(selectedVehicleData) {
+    deleteVehicle(this.VehicleMake, this.VehicleModel, selectedVehicleData);
   }
 
   editVehicleToStore(

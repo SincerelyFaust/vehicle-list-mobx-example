@@ -22,10 +22,9 @@ export default function handler(req, res) {
       break;
     case "DELETE":
       deleteVehicle(
-        vehiclesData.VehicleModel,
         vehiclesData.VehicleMake,
-        body.vehicleMakeAbrv,
-        body.vehicleModelAbrv
+        vehiclesData.VehicleModel,
+        body.selectedVehicleData
       );
       res
         .status(200)

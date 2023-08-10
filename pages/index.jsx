@@ -15,10 +15,8 @@ const Home = observer(function Home() {
   const [filterChoice, setFilterChoice] = useState("");
   const [openEditVehicleDialog, setOpenEditVehicleDialog] = useState(false);
   const [currentVehicle, setCurrentVehicle] = useState({
-    vehicleMakeName: "",
-    vehicleMakeAbrv: "",
-    vehicleModelName: "",
-    vehicleModelAbrv: "",
+    make: { id: -1, name: "", abrv: "" },
+    model: { id: -1, makeid: -1, name: "", abrv: "" },
   });
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -93,10 +91,7 @@ const Home = observer(function Home() {
             <>
               <ListItem
                 key={vehicleModel.id}
-                vehicleMakeName={vehicleMake.name}
-                vehicleMakeAbrv={vehicleMake.abrv}
-                vehicleModelName={vehicleModel.name}
-                vehicleModelAbrv={vehicleModel.abrv}
+                vehicle={{ make: vehicleMake, model: vehicleModel }}
                 setOpenEditVehicleDialog={setOpenEditVehicleDialog}
                 openEditVehicleDialog={openEditVehicleDialog}
                 setCurrentVehicle={setCurrentVehicle}
