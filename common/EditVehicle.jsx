@@ -1,44 +1,37 @@
 export default function editVehicle(
   vehicleMakeData,
   vehicleModelData,
-  selectedVehicleMakeName,
-  selectedVehicleMakeAbrv,
-  selectedVehicleModelName,
-  selectedVehicleModelAbrv,
-  editedVehicleMakeName,
-  editedVehicleMakeAbrv,
-  editedVehicleModelName,
-  editedVehicleModelAbrv
+  selectedVehicleData,
+  editedVehicleData
 ) {
   if (
-    selectedVehicleMakeName === editedVehicleMakeName &&
-    selectedVehicleMakeAbrv === editedVehicleMakeAbrv &&
-    selectedVehicleModelName === editedVehicleModelName &&
-    selectedVehicleModelAbrv === editedVehicleModelAbrv
+    selectedVehicleData.make.name === editedVehicleData.editedMake.name &&
+    selectedVehicleData.make.abrv === editedVehicleData.editedMake.abrv &&
+    selectedVehicleData.model.name === editedVehicleData.editedModel.name &&
+    selectedVehicleData.model.abrv === editedVehicleData.editedModel.abrv
   )
     return;
 
+  const { make: selectedMake, model: selectedModel } = selectedVehicleData;
+  const { editedMake, editedModel } = editedVehicleData;
+
   const vehicleMake = vehicleMakeData.find(
-    (make) =>
-      make.name === selectedVehicleMakeName &&
-      make.abrv === selectedVehicleMakeAbrv
+    (make) => make.name === selectedMake.name && make.abrv === selectedMake.abrv
   );
 
   const vehicleModelIndex = vehicleModelData.findIndex(
     (model) =>
-      model.name === selectedVehicleModelName &&
-      model.abrv === selectedVehicleModelAbrv &&
-      model.makeid == vehicleMake.id
+      model.name === selectedModel.name &&
+      model.abrv === selectedModel.abrv &&
+      model.makeid === vehicleMake.id
   );
 
   if (
-    selectedVehicleMakeName !== editedVehicleMakeName ||
-    selectedVehicleMakeAbrv !== editedVehicleMakeAbrv
+    selectedMake.name !== editedMake.name ||
+    selectedMake.abrv !== editedMake.abrv
   ) {
     const findVehicleMake = vehicleMakeData.find(
-      (make) =>
-        make.abrv === editedVehicleMakeAbrv &&
-        make.name === editedVehicleMakeName
+      (make) => make.name === editedMake.name && make.abrv === editedMake.abrv
     );
     const vehicleMakeLength = vehicleMakeData.length;
 
@@ -47,8 +40,8 @@ export default function editVehicle(
     if (!findVehicleMake) {
       vehicleMakeData.push({
         id: vehicleMakeLength + 1,
-        name: editedVehicleMakeName,
-        abrv: editedVehicleMakeAbrv,
+        name: editedMake.name,
+        abrv: editedMake.abrv,
       });
       vehicleModelData[vehicleModelIndex].makeid = vehicleMakeLength + 1;
       // else assign the existing make's id to the selected model
@@ -57,8 +50,8 @@ export default function editVehicle(
     }
   }
 
-  if (selectedVehicleModelName !== editedVehicleModelName)
-    vehicleModelData[vehicleModelIndex].name = editedVehicleModelName;
-  if (selectedVehicleModelAbrv !== editedVehicleModelAbrv)
-    vehicleModelData[vehicleModelIndex].abrv = editedVehicleModelAbrv;
+  if (selectedModel.name !== editedModel.name)
+    vehicleModelData[vehicleModelIndex].name = editedModel.name;
+  if (selectedModel.abrv !== editedModel.abrv)
+    vehicleModelData[vehicleModelIndex].abrv = editedModel.abrv;
 }

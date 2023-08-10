@@ -45,27 +45,12 @@ export class VehicleStore {
     deleteVehicle(this.VehicleMake, this.VehicleModel, selectedVehicleData);
   }
 
-  editVehicleToStore(
-    selectedVehicleMakeName,
-    selectedVehicleMakeAbrv,
-    selectedVehicleModelName,
-    selectedVehicleModelAbrv,
-    editedVehicleMakeName,
-    editedVehicleMakeAbrv,
-    editedVehicleModelName,
-    editedVehicleModelAbrv
-  ) {
+  editVehicleToStore(selectedVehicleData, editedVehicleData) {
     editVehicle(
       this.VehicleMake,
       this.VehicleModel,
-      selectedVehicleMakeName,
-      selectedVehicleMakeAbrv,
-      selectedVehicleModelName,
-      selectedVehicleModelAbrv,
-      editedVehicleMakeName,
-      editedVehicleMakeAbrv,
-      editedVehicleModelName,
-      editedVehicleModelAbrv
+      selectedVehicleData,
+      editedVehicleData
     );
   }
 }

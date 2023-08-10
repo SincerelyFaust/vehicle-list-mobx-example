@@ -14,10 +14,10 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
   const store = useStore();
 
   useEffect(() => {
-    setMakeNameInput(initialData.vehicleMakeName);
-    setMakeAbrvInput(initialData.vehicleMakeAbrv);
-    setModelNameInput(initialData.vehicleModelName);
-    setModelAbrvInput(initialData.vehicleModelAbrv);
+    setMakeNameInput(initialData.make.name);
+    setMakeAbrvInput(initialData.make.abrv);
+    setModelNameInput(initialData.model.name);
+    setModelAbrvInput(initialData.model.abrv);
   }, [initialData]);
 
   function resetState() {
@@ -28,19 +28,18 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
     setModelAbrvInput("");
   }
 
-  function handleSubmit() {
+  function handleSubmit(event) {
     event.preventDefault();
 
-    store.editVehicleToStore(
-      initialData.vehicleMakeName,
-      initialData.vehicleMakeAbrv,
-      initialData.vehicleModelName,
-      initialData.vehicleModelAbrv,
-      makeNameInput,
-      makeAbrvInput,
-      modelNameInput,
-      modelAbrvInput
-    );
+    const editedVehicleData = {
+      editedMake: {
+        name: makeNameInput,
+        abrv: makeAbrvInput,
+      },
+      editedModel: { name: modelNameInput, abrv: modelAbrvInput },
+    };
+
+    store.editVehicleToStore(initialData, editedVehicleData);
 
     fetch("/api/vehicles", {
       method: "PATCH",
@@ -49,10 +48,7 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
       },
       body: JSON.stringify({
         initialData,
-        makeNameInput,
-        makeAbrvInput,
-        modelNameInput,
-        modelAbrvInput,
+        editedVehicleData,
       }),
     });
 

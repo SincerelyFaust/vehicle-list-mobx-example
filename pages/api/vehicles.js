@@ -34,14 +34,8 @@ export default function handler(req, res) {
       editVehicle(
         vehiclesData.VehicleMake,
         vehiclesData.VehicleModel,
-        body.initialData.vehicleMakeName,
-        body.initialData.vehicleMakeAbrv,
-        body.initialData.vehicleModelName,
-        body.initialData.vehicleModelAbrv,
-        body.makeNameInput,
-        body.makeAbrvInput,
-        body.modelNameInput,
-        body.modelAbrvInput
+        body.initialData,
+        body.editedVehicleData
       );
       res
         .status(200)
