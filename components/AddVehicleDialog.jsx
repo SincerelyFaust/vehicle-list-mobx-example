@@ -1,9 +1,8 @@
 import Dialog from "@/components/Dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Form from "@/components/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
-import { useEffect } from "react";
 
 export default function AddVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
@@ -51,15 +50,18 @@ export default function AddVehicleDialog({ open, setOpen }) {
     }
   }, [makeSelected, store.VehicleMake, open]);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
     event.preventDefault();
 
-    store.addVehicleToStore(
-      makeNameInput,
-      makeAbrvInput,
-      modelNameInput,
-      modelAbrvInput
-    );
+    const newVehicleData = {
+      newMake: {
+        name: makeNameInput,
+        abrv: makeAbrvInput,
+      },
+      newModel: { name: modelNameInput, abrv: modelAbrvInput },
+    };
+
+    store.addVehicleToStore(newVehicleData);
 
     fetch("/api/vehicles", {
       method: "POST",
@@ -67,10 +69,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        makeNameInput,
-        makeAbrvInput,
-        modelNameInput,
-        modelAbrvInput,
+        newVehicleData,
       }),
     });
 

@@ -1,26 +1,22 @@
 export default function addVehicle(
   vehicleMakeData,
   vehicleModelData,
-  newVehicleMakeName,
-  newVehicleMakeAbrv,
-  newVehicleModelName,
-  newVehicleModelAbrv
+  newVehicleData
 ) {
-  if (
-    !newVehicleMakeName &&
-    !newVehicleMakeAbrv &&
-    !newVehicleModelName &&
-    !newVehicleModelAbrv
-  )
-    return;
+  if (!newVehicleData) return;
 
+  const { newMake, newModel } = newVehicleData;
   const vehicleMakeLength = vehicleMakeData.length;
   const vehicleModelLength = vehicleModelData.length;
   const vehicleMake = vehicleMakeData.find(
-    (make) => make.abrv.toLowerCase() === newVehicleMakeAbrv.toLowerCase()
+    (make) =>
+      make.name.toLowerCase() === newMake.name.toLowerCase() &&
+      make.abrv.toLowerCase() === newMake.abrv.toLowerCase()
   );
   const vehicleModel = vehicleModelData.find(
-    (model) => model.name.toLowerCase() === newVehicleModelName.toLowerCase()
+    (model) =>
+      model.name.toLowerCase() === newModel.name.toLowerCase() &&
+      model.abrv.toLowerCase() === newModel.abrv.toLowerCase()
   );
 
   /* the reason for this boolean check is not to add a vehicle make that already exists */
@@ -29,8 +25,8 @@ export default function addVehicle(
     ? null
     : vehicleMakeData.push({
         id: vehicleMakeLength + 1,
-        name: newVehicleMakeName,
-        abrv: newVehicleMakeAbrv,
+        name: newMake.name,
+        abrv: newMake.abrv,
       });
 
   /* the reason for this if statement check is not to add a vehicle model that already exists unless the model name only shares the same name as some other model that's under a different vehicle make in which case we want to add it */
@@ -39,23 +35,24 @@ export default function addVehicle(
     const isDuplicate = vehicleModelData.some(
       (model) =>
         model.makeid === vehicleMake.id &&
-        model.name.toLowerCase() === newVehicleModelName.toLowerCase()
+        model.name.toLowerCase() === newModel.name.toLowerCase() &&
+        model.abrv.toLowerCase() === newModel.abrv.toLowerCase()
     );
 
     if (!isDuplicate) {
       vehicleModelData.push({
         id: vehicleModelLength + 1,
         makeid: vehicleMake.id,
-        name: newVehicleModelName,
-        abrv: newVehicleModelAbrv,
+        name: newModel.name,
+        abrv: newModel.abrv,
       });
     }
   } else if (vehicleMake && !vehicleModel) {
     vehicleModelData.push({
       id: vehicleModelLength + 1,
       makeid: vehicleMake.id,
-      name: newVehicleModelName,
-      abrv: newVehicleModelAbrv,
+      name: newModel.name,
+      abrv: newModel.abrv,
     });
   } else if (
     (vehicleModel && !vehicleMake) ||
@@ -64,8 +61,8 @@ export default function addVehicle(
     vehicleModelData.push({
       id: vehicleModelLength + 1,
       makeid: vehicleMakeLength + 1,
-      name: newVehicleModelName,
-      abrv: newVehicleModelAbrv,
+      name: newModel.name,
+      abrv: newModel.abrv,
     });
   }
 }

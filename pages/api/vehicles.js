@@ -14,10 +14,7 @@ export default function handler(req, res) {
       addVehicle(
         vehiclesData.VehicleMake,
         vehiclesData.VehicleModel,
-        body.makeNameInput,
-        body.makeAbrvInput,
-        body.modelNameInput,
-        body.modelAbrvInput
+        body.newVehicleData
       );
       res
         .status(200)
