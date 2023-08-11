@@ -8,7 +8,7 @@ pnpm i
 ```
 2. Stvori datoteku pod imenom `.env.local` i zalijepi sljedeće:
 ```
-NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_URL=http://localhost:3000
 ```
 3. Pokreni dev server:
 ```bash
