@@ -15,15 +15,9 @@ export default function editVehicle(
   const { make: selectedMake, model: selectedModel } = selectedVehicleData;
   const { editedMake, editedModel } = editedVehicleData;
 
-  const vehicleMake = vehicleMakeData.find(
-    (make) => make.name === selectedMake.name && make.abrv === selectedMake.abrv
-  );
-
   const vehicleModelIndex = vehicleModelData.findIndex(
     (model) =>
-      model.name === selectedModel.name &&
-      model.abrv === selectedModel.abrv &&
-      model.makeid === vehicleMake.id
+      model.name === selectedModel.name && model.abrv === selectedModel.abrv
   );
 
   if (
@@ -50,8 +44,11 @@ export default function editVehicle(
     }
   }
 
-  if (selectedModel.name !== editedModel.name)
+  if (selectedModel.name !== editedModel.name) {
     vehicleModelData[vehicleModelIndex].name = editedModel.name;
-  if (selectedModel.abrv !== editedModel.abrv)
+  }
+
+  if (selectedModel.abrv !== editedModel.abrv) {
     vehicleModelData[vehicleModelIndex].abrv = editedModel.abrv;
+  }
 }
