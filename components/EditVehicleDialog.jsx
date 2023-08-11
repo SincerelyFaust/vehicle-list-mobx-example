@@ -13,7 +13,7 @@ export default function EditVehicleDialog({ open, setOpen }) {
 
   const store = useStore();
 
-  const currentVehicle = store.getCurrentVehicle;
+  const currentVehicle = store.currentVehicle;
 
   useEffect(() => {
     setMakeNameInput(currentVehicle.make.name);

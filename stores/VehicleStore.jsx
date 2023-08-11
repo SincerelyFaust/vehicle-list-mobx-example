@@ -42,10 +42,6 @@ export class VehicleStore {
     this.currentVehicle = { make, model };
   }
 
-  get getCurrentVehicle() {
-    return this.currentVehicle;
-  }
-
   addVehicleToStore(newVehicleData) {
     addVehicle(this.VehicleMake, this.VehicleModel, newVehicleData);
   }
