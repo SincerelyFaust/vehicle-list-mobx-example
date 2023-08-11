@@ -5,7 +5,7 @@ import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
 import { useEffect } from "react";
 
-export default function EditVehicleDialog({ open, setOpen, initialData }) {
+export default function EditVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
   const [makeAbrvInput, setMakeAbrvInput] = useState("");
   const [modelNameInput, setModelNameInput] = useState("");
@@ -13,12 +13,14 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
 
   const store = useStore();
 
+  const currentVehicle = store.getCurrentVehicle;
+
   useEffect(() => {
-    setMakeNameInput(initialData.make.name);
-    setMakeAbrvInput(initialData.make.abrv);
-    setModelNameInput(initialData.model.name);
-    setModelAbrvInput(initialData.model.abrv);
-  }, [initialData]);
+    setMakeNameInput(currentVehicle.make.name);
+    setMakeAbrvInput(currentVehicle.make.abrv);
+    setModelNameInput(currentVehicle.model.name);
+    setModelAbrvInput(currentVehicle.model.abrv);
+  }, [currentVehicle]);
 
   function resetState() {
     setOpen(!open);
@@ -39,7 +41,7 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
       editedModel: { name: modelNameInput, abrv: modelAbrvInput },
     };
 
-    store.editVehicleToStore(initialData, editedVehicleData);
+    store.editVehicleToStore(editedVehicleData);
 
     fetch("/api/vehicles", {
       method: "PATCH",
@@ -47,7 +49,7 @@ export default function EditVehicleDialog({ open, setOpen, initialData }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        initialData,
+        currentVehicle,
         editedVehicleData,
       }),
     });

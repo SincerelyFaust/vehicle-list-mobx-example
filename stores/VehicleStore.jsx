@@ -7,6 +7,7 @@ export class VehicleStore {
   VehicleMake = [];
   VehicleModel = [];
   filterChoice = null;
+  currentVehicle = { make: {}, model: {} };
 
   constructor() {
     makeAutoObservable(this);
@@ -37,6 +38,14 @@ export class VehicleStore {
     return this.VehicleModel.filter((model) => model.makeid === vehicleMake.id);
   }
 
+  setCurrentVehicle(make, model) {
+    this.currentVehicle = { make, model };
+  }
+
+  get getCurrentVehicle() {
+    return this.currentVehicle;
+  }
+
   addVehicleToStore(newVehicleData) {
     addVehicle(this.VehicleMake, this.VehicleModel, newVehicleData);
   }
@@ -45,11 +54,11 @@ export class VehicleStore {
     deleteVehicle(this.VehicleMake, this.VehicleModel, selectedVehicleData);
   }
 
-  editVehicleToStore(selectedVehicleData, editedVehicleData) {
+  editVehicleToStore(editedVehicleData) {
     editVehicle(
       this.VehicleMake,
       this.VehicleModel,
-      selectedVehicleData,
+      this.currentVehicle,
       editedVehicleData
     );
   }

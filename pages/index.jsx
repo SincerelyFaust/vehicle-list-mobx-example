@@ -14,10 +14,6 @@ const Home = observer(function Home() {
   const [sortChoice, setSortChoice] = useState("");
   const [filterChoice, setFilterChoice] = useState("");
   const [openEditVehicleDialog, setOpenEditVehicleDialog] = useState(false);
-  const [currentVehicle, setCurrentVehicle] = useState({
-    make: { id: -1, name: "", abrv: "" },
-    model: { id: -1, makeid: -1, name: "", abrv: "" },
-  });
   const [currentPage, setCurrentPage] = useState(1);
 
   const store = useStore();
@@ -38,7 +34,6 @@ const Home = observer(function Home() {
       <EditVehicleDialog
         open={openEditVehicleDialog}
         setOpen={setOpenEditVehicleDialog}
-        initialData={currentVehicle}
       />
       <ButtonsLayout>
         <button
@@ -94,7 +89,6 @@ const Home = observer(function Home() {
                 vehicle={{ make: vehicleMake, model: vehicleModel }}
                 setOpenEditVehicleDialog={setOpenEditVehicleDialog}
                 openEditVehicleDialog={openEditVehicleDialog}
-                setCurrentVehicle={setCurrentVehicle}
               />
             </>
           );
