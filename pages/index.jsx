@@ -15,6 +15,7 @@ const Home = observer(function Home() {
   const [filterChoice, setFilterChoice] = useState("");
   const [openEditVehicleDialog, setOpenEditVehicleDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageInput, setPageInput] = useState(currentPage);
 
   const store = useStore();
 
@@ -64,6 +65,7 @@ const Home = observer(function Home() {
             setFilterChoice(e.target.value);
             store.setFilterChoice(e.target.value);
             setCurrentPage(1);
+            setPageInput(1);
           }}
         >
           <option value="" selected disabled hidden>
@@ -100,6 +102,8 @@ const Home = observer(function Home() {
         displayItems={itemsToDisplay}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
+        pageInput={pageInput}
+        setPageInput={setPageInput}
       />
     </>
   );

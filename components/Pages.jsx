@@ -1,27 +1,21 @@
 import styles from "@/components/Pages.module.css";
 import { ArrowRight, ArrowLeft } from "lucide-react";
-import { useState, useEffect } from "react";
 
 export default function Pages({
   itemCount,
   displayItems,
   currentPage,
   onPageChange,
+  pageInput,
+  setPageInput,
 }) {
   const pagesCount = Math.ceil(itemCount / displayItems);
-  const [page, setPage] = useState(+currentPage);
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (+page <= pagesCount && +page > 0) onPageChange(+page);
+    if (+pageInput <= pagesCount && +pageInput > 0) onPageChange(+pageInput);
   }
-
-  const resetInputValue = itemCount <= 8;
-
-  useEffect(() => {
-    setPage("1");
-  }, [resetInputValue]);
 
   return (
     <div className={styles["pages"]}>
@@ -30,7 +24,7 @@ export default function Pages({
         onClick={() => {
           if (currentPage > 1) {
             onPageChange(currentPage - 1);
-            setPage(currentPage - 1);
+            setPageInput(currentPage - 1);
           }
         }}
       >
@@ -46,9 +40,9 @@ export default function Pages({
           type="number"
           name="page_input"
           id="page_input"
-          value={page}
+          value={pageInput}
           form="page-form"
-          onChange={(e) => setPage(e.target.value)}
+          onChange={(e) => setPageInput(e.target.value)}
         />
         <p>/ {pagesCount}</p>
       </form>
@@ -57,7 +51,7 @@ export default function Pages({
         onClick={() => {
           if (pagesCount !== currentPage) {
             onPageChange(currentPage + 1);
-            setPage(currentPage + 1);
+            setPageInput(currentPage + 1);
           }
         }}
       >
