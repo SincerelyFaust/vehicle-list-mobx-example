@@ -4,16 +4,16 @@ export default function editVehicle(
   selectedVehicleData,
   editedVehicleData
 ) {
-  if (
-    selectedVehicleData.make.name === editedVehicleData.editedMake.name &&
-    selectedVehicleData.make.abrv === editedVehicleData.editedMake.abrv &&
-    selectedVehicleData.model.name === editedVehicleData.editedModel.name &&
-    selectedVehicleData.model.abrv === editedVehicleData.editedModel.abrv
-  )
-    return;
-
   const { make: selectedMake, model: selectedModel } = selectedVehicleData;
   const { editedMake, editedModel } = editedVehicleData;
+
+  if (
+    selectedMake.name === editedMake.name &&
+    selectedMake.abrv === editedMake.abrv &&
+    selectedModel.name === editedModel.name &&
+    selectedModel.abrv === editedModel.abrv
+  )
+    return;
 
   const vehicleModelIndex = vehicleModelData.findIndex(
     (model) =>
