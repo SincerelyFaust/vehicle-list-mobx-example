@@ -42,9 +42,9 @@ export default function EditVehicleDialog({ open, setOpen }) {
       editedModel: { name: modelNameInput, abrv: modelAbrvInput },
     };
 
-    store.editVehicleToStore(editedVehicleData);
-
     const rawCurrentVehicle = toJS(store.currentVehicle);
+
+    store.editVehicleToStore(editedVehicleData);
 
     fetch("/api/vehicles", {
       method: "PATCH",
