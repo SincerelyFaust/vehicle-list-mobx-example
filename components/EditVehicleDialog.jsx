@@ -4,6 +4,7 @@ import Form from "@/components/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
 import { useEffect } from "react";
+import { toJS } from "mobx";
 
 export default function EditVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
@@ -43,13 +44,15 @@ export default function EditVehicleDialog({ open, setOpen }) {
 
     store.editVehicleToStore(editedVehicleData);
 
+    const rawCurrentVehicle = toJS(store.currentVehicle);
+
     fetch("/api/vehicles", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        currentVehicle,
+        rawCurrentVehicle,
         editedVehicleData,
       }),
     });
