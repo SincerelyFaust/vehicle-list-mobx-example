@@ -1,6 +1,6 @@
 import styles from "@/components/Pages.module.css";
 import { ArrowRight, ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Pages({
   itemCount,
@@ -16,6 +16,12 @@ export default function Pages({
 
     if (+page <= pagesCount && +page > 0) onPageChange(+page);
   }
+
+  const resetInputValue = itemCount <= 8;
+
+  useEffect(() => {
+    setPage("1");
+  }, [resetInputValue]);
 
   return (
     <div className={styles["pages"]}>

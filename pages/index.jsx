@@ -63,6 +63,7 @@ const Home = observer(function Home() {
           onChange={(e) => {
             setFilterChoice(e.target.value);
             store.setFilterChoice(e.target.value);
+            setCurrentPage(1);
           }}
         >
           <option value="" selected disabled hidden>
