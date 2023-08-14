@@ -51,7 +51,7 @@ const Home = observer(function Home() {
             SortVehicle(store.VehicleMake, store.VehicleModel, e.target.value);
           }}
         >
-          <option value="" selected disabled hidden>
+          <option value="" disabled hidden>
             Sortiraj
           </option>
           <optgroup label="Abecedno">
@@ -68,7 +68,7 @@ const Home = observer(function Home() {
             setPageInput(1);
           }}
         >
-          <option value="" selected disabled hidden>
+          <option value="" disabled hidden>
             Filtriraj
           </option>
           <option value="">Sve marke</option>
