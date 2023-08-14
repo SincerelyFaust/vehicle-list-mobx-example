@@ -1,6 +1,6 @@
 import Dialog from "@/components/Dialog";
 import { useState, useEffect } from "react";
-import Form from "@/components/Form";
+import Form from "@/layouts/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
 

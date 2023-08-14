@@ -1,4 +1,4 @@
-import styles from "@/components/Form.module.css";
+import styles from "@/layouts/Form.module.css";
 
 export default function Form({ handleSubmit, formId, children }) {
   return (
