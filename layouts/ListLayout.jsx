@@ -4,7 +4,7 @@ export default function ListLayout({ children, buttons }) {
   return (
     <div className={styles["list-layout"]}>
       <div className={styles["header"]}>
-        <p>Brand</p>
+        <p>Marka</p>
         <p>Model</p>
         <div className={styles["buttons-div"]}>{buttons}</div>
       </div>
