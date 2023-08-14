@@ -86,14 +86,12 @@ const Home = observer(function Home() {
           );
 
           return (
-            <>
-              <ListItem
-                key={vehicleModel.id}
-                vehicle={{ make: vehicleMake, model: vehicleModel }}
-                setOpenEditVehicleDialog={setOpenEditVehicleDialog}
-                openEditVehicleDialog={openEditVehicleDialog}
-              />
-            </>
+            <ListItem
+              key={vehicleModel.id}
+              vehicle={{ make: vehicleMake, model: vehicleModel }}
+              setOpenEditVehicleDialog={setOpenEditVehicleDialog}
+              openEditVehicleDialog={openEditVehicleDialog}
+            />
           );
         })}
       </ListLayout>

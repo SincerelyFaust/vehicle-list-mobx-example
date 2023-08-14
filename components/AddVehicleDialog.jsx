@@ -96,11 +96,9 @@ export default function AddVehicleDialog({ open, setOpen }) {
             >
               {store.VehicleMake.map((vehicleMake) => {
                 return (
-                  <>
-                    <option key={vehicleMake.id} value={vehicleMake.id}>
-                      {vehicleMake.abrv}
-                    </option>
-                  </>
+                  <option key={vehicleMake.id} value={vehicleMake.id}>
+                    {vehicleMake.abrv}
+                  </option>
                 );
               })}
               <option value={0}>+ Dodaj</option>
