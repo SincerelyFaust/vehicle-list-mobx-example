@@ -7,7 +7,10 @@ export class VehicleStore {
   VehicleMake = [];
   VehicleModel = [];
   filterChoice = null;
-  currentVehicle = { make: {}, model: {} };
+  currentVehicle = {
+    make: { name: "", abrv: "", id: null },
+    model: { name: "", abrv: "", id: null, makeid: null },
+  };
 
   constructor() {
     makeAutoObservable(this);
