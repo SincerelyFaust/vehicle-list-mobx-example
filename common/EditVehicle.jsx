@@ -17,7 +17,9 @@ export default function editVehicle(
 
   const vehicleModelIndex = vehicleModelData.findIndex(
     (model) =>
-      model.name === selectedModel.name && model.abrv === selectedModel.abrv
+      model.name === selectedModel.name &&
+      model.abrv === selectedModel.abrv &&
+      model.makeid === selectedModel.makeid
   );
 
   if (

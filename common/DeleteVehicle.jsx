@@ -6,17 +6,18 @@ export default function deleteVehicle(
   const { make: selectedMake, model: selectedModel } = selectedVehicleData;
 
   const vehicleMake = vehicleMakeData.find(
-    (make) => make.name === selectedMake.name && make.abrv === selectedMake.abrv
+    (make) =>
+      make.name === selectedMake.name &&
+      make.abrv === selectedMake.abrv &&
+      make.id === selectedMake.id
   );
 
-  const findModelMatch = vehicleModelData.find(
+  const vehicleModelIndex = vehicleModelData.findIndex(
     (model) =>
       model.makeid === vehicleMake.id &&
       model.abrv === selectedModel.abrv &&
       model.name === selectedModel.name
   );
-
-  const vehicleModelIndex = vehicleModelData.indexOf(findModelMatch);
 
   if (vehicleModelIndex > -1) {
     vehicleModelData.splice(vehicleModelIndex, 1);
