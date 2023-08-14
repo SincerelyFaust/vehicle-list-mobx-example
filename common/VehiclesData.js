@@ -62,7 +62,7 @@ export const vehiclesData = {
     { id: 43, makeid: 1, name: "X5", abrv: "X5" },
     { id: 44, makeid: 4, name: "TT", abrv: "TT" },
     { id: 45, makeid: 4, name: "Q5", abrv: "Q5" },
-    { id: 46, makeid: 2, name: "C-Class", abrv: "C-Class" },
+    { id: 46, makeid: 2, name: "C300d", abrv: "C300d" },
     { id: 47, makeid: 1, name: "740i", abrv: "740i" },
     { id: 48, makeid: 5, name: "Escape", abrv: "Escape" },
     { id: 49, makeid: 8, name: "Altima", abrv: "Altima" },
