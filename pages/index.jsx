@@ -1,13 +1,14 @@
 import ListItem from "@/components/ListItem";
 import ListLayout from "@/layouts/ListLayout";
 import { useStore } from "@/common/StoreProvider";
-import ButtonsLayout from "@/layouts/ButtonsLayout";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
 import SortVehicle from "@/common/SortVehicle";
 import EditVehicleDialog from "@/components/EditVehicleDialog";
 import Pages from "@/components/Pages";
+import CustomSelect from "@/components/CustomSelect";
+import { ArrowDownAZ, Filter, PlusCircle } from "lucide-react";
 
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
@@ -26,6 +27,30 @@ const Home = observer(function Home() {
     return store.filteredVehicleModelData.slice(start, start + itemsToDisplay);
   }
 
+  function handleSortSelectChange(value) {
+    SortVehicle(store.VehicleMake, store.VehicleModel, value);
+  }
+
+  function handleFilterSelectChange(value) {
+    store.setFilterChoice(value);
+    setCurrentPage(1);
+    setPageInput(1);
+  }
+
+  const sortOptions = {
+    Abecedno: [
+      { value: "alphabetical-make", label: "Marke" },
+      { value: "alphabetical-model", label: "Modeli" },
+    ],
+  };
+
+  const filterOptions = {
+    Marka: store.VehicleMake.map((make) => ({
+      value: make.id,
+      label: `${make.name} (${make.abrv})`,
+    })),
+  };
+
   return (
     <>
       <AddVehicleDialog
@@ -36,50 +61,39 @@ const Home = observer(function Home() {
         open={openEditVehicleDialog}
         setOpen={setOpenEditVehicleDialog}
       />
-      <ButtonsLayout>
-        <button
-          onClick={() => {
-            setOpenAddVehicleDialog(!openAddVehicleDialog);
-          }}
-        >
-          Dodaj
-        </button>
-        <select
-          value={sortChoice}
-          onChange={(e) => {
-            setSortChoice(e.target.value);
-            SortVehicle(store.VehicleMake, store.VehicleModel, e.target.value);
-          }}
-        >
-          <option value="" disabled hidden>
-            Sortiraj
-          </option>
-          <optgroup label="Abecedno">
-            <option value={"alphabetical-make"}>Marke</option>
-            <option value={"alphabetical-model"}>Modeli</option>
-          </optgroup>
-        </select>
-        <select
-          value={filterChoice}
-          onChange={(e) => {
-            setFilterChoice(e.target.value);
-            store.setFilterChoice(e.target.value);
-            setCurrentPage(1);
-            setPageInput(1);
-          }}
-        >
-          <option value="" disabled hidden>
-            Filtriraj
-          </option>
-          <option value="">Sve marke</option>
-          {store.VehicleMake.map((make) => (
-            <option key={make.id} value={make.id}>
-              {make.name} ({make.abrv})
-            </option>
-          ))}
-        </select>
-      </ButtonsLayout>
-      <ListLayout>
+      <ListLayout
+        buttons={
+          <>
+            <button
+              onClick={() => {
+                setOpenAddVehicleDialog(!openAddVehicleDialog);
+              }}
+            >
+              <PlusCircle size={14} /> Dodaj
+            </button>
+            <CustomSelect
+              selectHeader={{
+                title: "Sortiraj",
+                icon: <ArrowDownAZ size={14} />,
+              }}
+              options={[sortOptions]}
+              selectedOption={sortChoice}
+              setSelectedOption={setSortChoice}
+              onChange={handleSortSelectChange}
+            />
+            <CustomSelect
+              selectHeader={{
+                title: "Filtriraj",
+                icon: <Filter size={14} />,
+              }}
+              options={[filterOptions]}
+              selectedOption={filterChoice}
+              setSelectedOption={setFilterChoice}
+              onChange={handleFilterSelectChange}
+            />
+          </>
+        }
+      >
         {displayVehicles().map((vehicleModel) => {
           const vehicleMake = store.VehicleMake.find(
             (make) => make.id === vehicleModel.makeid

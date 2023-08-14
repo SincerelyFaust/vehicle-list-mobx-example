@@ -11,3 +11,91 @@
         width: 100%;
     }
 }
+
+.header{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0 2rem;
+    gap: 1rem;
+    position: relative;
+
+
+    @media (max-width: 1040px) {
+        padding: unset;
+       margin-bottom: 2rem;
+    }
+}
+
+.header p:last-of-type {
+    position: absolute;
+    top: 50%;
+    left: 48.4%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.header p:first-of-type {
+    flex: 1;
+}
+
+.header p {
+    color: white;
+
+    @media (max-width: 1040px) {
+    display: none;
+    }
+}
+
+.buttons-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 40%;
+
+    @media (max-width: 1040px) {
+        width: 100%
+         }
+}
+
+.buttons-div button {
+    color: white;
+    min-width: 6rem;
+    padding: 0 1rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+    background-color: rgb(58, 58, 58);
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    outline: 1px solid rgb(85, 85, 85);
+    font-size: 0.8rem;
+
+    @media (max-width: 1040px) {
+        width: unset;
+        flex: 1;
+    }
+}
+
+.buttons-div svg {
+    vertical-align: middle;
+    margin-right: 0.4rem;
+}
+
+.buttons-div button:hover {
+    background-color: rgb(44, 44, 44);
+}
+
+.list-layout ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
