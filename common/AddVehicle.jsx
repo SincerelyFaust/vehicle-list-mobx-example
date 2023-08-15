@@ -3,8 +3,6 @@ export default function addVehicle(
   vehicleModelData,
   newVehicleData
 ) {
-  if (!newVehicleData) return;
-
   const { newMake, newModel } = newVehicleData;
   const vehicleMakeLength = vehicleMakeData.length;
   const vehicleModelLength = vehicleModelData.length;
@@ -39,14 +37,14 @@ export default function addVehicle(
         model.abrv.toLowerCase() === newModel.abrv.toLowerCase()
     );
 
-    if (!isDuplicate) {
-      vehicleModelData.push({
-        id: vehicleModelLength + 1,
-        makeid: vehicleMake.id,
-        name: newModel.name,
-        abrv: newModel.abrv,
-      });
-    }
+    if (isDuplicate) throw Error("Vozilo koje želite dodati već postoji.");
+
+    vehicleModelData.push({
+      id: vehicleModelLength + 1,
+      makeid: vehicleMake.id,
+      name: newModel.name,
+      abrv: newModel.abrv,
+    });
   } else if (vehicleMake && !vehicleModel) {
     vehicleModelData.push({
       id: vehicleModelLength + 1,

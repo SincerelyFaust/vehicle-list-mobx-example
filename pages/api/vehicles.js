@@ -11,14 +11,18 @@ export default function handler(req, res) {
       res.status(200).json(vehiclesData);
       break;
     case "POST":
-      addVehicle(
-        vehiclesData.VehicleMake,
-        vehiclesData.VehicleModel,
-        body.newVehicleData
-      );
-      res
-        .status(200)
-        .json({ success: true, message: "Car added successfully." });
+      try {
+        addVehicle(
+          vehiclesData.VehicleMake,
+          vehiclesData.VehicleModel,
+          body.newVehicleData
+        );
+        res
+          .status(200)
+          .json({ success: true, message: "Car added successfully." });
+      } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+      }
       break;
     case "DELETE":
       deleteVehicle(
@@ -45,7 +49,6 @@ export default function handler(req, res) {
         res.status(400).json({ success: false, message: error.message });
       }
       break;
-
     default:
       res.status(405).json({ success: false, error: "Method is not allowed." });
       break;

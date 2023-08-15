@@ -10,6 +10,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
   const [modelNameInput, setModelNameInput] = useState("");
   const [modelAbrvInput, setModelAbrvInput] = useState("");
   const [makeSelected, setMakeSelected] = useState("1");
+  const [error, setError] = useState("");
 
   const store = useStore();
 
@@ -20,6 +21,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
     setModelNameInput("");
     setModelAbrvInput("");
     setMakeSelected("1");
+    setError("");
   }
 
   useEffect(() => {
@@ -50,7 +52,29 @@ export default function AddVehicleDialog({ open, setOpen }) {
     }
   }, [makeSelected, store.VehicleMake, open]);
 
-  function handleSubmit(event) {
+  async function addVehicleToAPI(newVehicleData) {
+    try {
+      const response = await fetch("/api/vehicles", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          newVehicleData,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      return error.message;
+    }
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const newVehicleData = {
@@ -61,17 +85,13 @@ export default function AddVehicleDialog({ open, setOpen }) {
       newModel: { name: modelNameInput, abrv: modelAbrvInput },
     };
 
-    store.addVehicleToStore(newVehicleData);
+    const response = await addVehicleToAPI(newVehicleData);
 
-    fetch("/api/vehicles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        newVehicleData,
-      }),
-    });
+    if (response) {
+      return setError(response);
+    }
+
+    store.addVehicleToStore(newVehicleData);
 
     resetState();
   }
@@ -83,6 +103,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
       setOpen={setOpen}
       form={"add-car-form"}
       resetState={resetState}
+      error={error}
     >
       <Form handleSubmit={handleSubmit} formId={"add-car-form"}>
         <label>Marka vozila</label>
