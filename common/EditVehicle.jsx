@@ -13,7 +13,7 @@ export default function editVehicle(
     selectedModel.name === editedModel.name &&
     selectedModel.abrv === editedModel.abrv
   )
-    return;
+    throw Error("Vozilo sa tim podacima već postoji.");
 
   const vehicleModelIndex = vehicleModelData.findIndex(
     (model) =>

@@ -4,12 +4,14 @@ import Form from "@/layouts/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
 import { toJS } from "mobx";
+import { AlertTriangle } from "lucide-react";
 
 export default function EditVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
   const [makeAbrvInput, setMakeAbrvInput] = useState("");
   const [modelNameInput, setModelNameInput] = useState("");
   const [modelAbrvInput, setModelAbrvInput] = useState("");
+  const [error, setError] = useState("");
 
   const store = useStore();
 
@@ -28,9 +30,33 @@ export default function EditVehicleDialog({ open, setOpen }) {
     setMakeAbrvInput("");
     setModelNameInput("");
     setModelAbrvInput("");
+    setError("");
   }
 
-  function handleSubmit(event) {
+  async function editVehicleToAPI(rawCurrentVehicle, editedVehicleData) {
+    try {
+      const response = await fetch("/api/vehicles", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rawCurrentVehicle,
+          editedVehicleData,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      return error.message;
+    }
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const editedVehicleData = {
@@ -43,18 +69,16 @@ export default function EditVehicleDialog({ open, setOpen }) {
 
     const rawCurrentVehicle = toJS(store.currentVehicle);
 
-    store.editVehicleToStore(editedVehicleData);
+    const response = await editVehicleToAPI(
+      rawCurrentVehicle,
+      editedVehicleData
+    );
 
-    fetch("/api/vehicles", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        rawCurrentVehicle,
-        editedVehicleData,
-      }),
-    });
+    if (response) {
+      return setError(response);
+    }
+
+    store.editVehicleToStore(editedVehicleData);
 
     resetState();
   }
@@ -120,6 +144,12 @@ export default function EditVehicleDialog({ open, setOpen }) {
             />
           </div>
         </div>
+        {error ? (
+          <div className={styles["error-div"]}>
+            <AlertTriangle color="#ff0033" />
+            <p>{error}</p>
+          </div>
+        ) : null}
       </Form>
     </Dialog>
   );
