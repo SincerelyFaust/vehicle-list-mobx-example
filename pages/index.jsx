@@ -45,13 +45,11 @@ const Home = observer(function Home() {
   };
 
   const filterOptions = {
-    Marka: [
-      { value: null, label: "Svi automobili" },
-      ...store.VehicleMake.map((make) => ({
-        value: make.id,
-        label: `${make.name} (${make.abrv})`,
-      })),
-    ],
+    "Sva vozila": [{ value: null, label: "Prikaži sve" }],
+    Marka: store.VehicleMake.map((make) => ({
+      value: make.id,
+      label: `${make.name} (${make.abrv})`,
+    })),
   };
 
   return (
