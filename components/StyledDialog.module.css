@@ -43,18 +43,3 @@
 .form-item select:focus {
     outline: #7c7c7c solid 1px;
 }
-
-.error-div {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  justify-content: start;
-  align-items: center;
-  width: 100%;
-}
-
-.error-div p {
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 300;
-}

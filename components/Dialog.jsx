@@ -1,8 +1,16 @@
 import styles from "@/components/Dialog.module.css";
 import { useRef, useEffect } from "react";
 import { Check, X } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
-export default function Dialog({ open, title, children, form, resetState }) {
+export default function Dialog({
+  open,
+  title,
+  children,
+  form,
+  resetState,
+  error,
+}) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -25,6 +33,12 @@ export default function Dialog({ open, title, children, form, resetState }) {
       <dialog ref={dialogRef} hidden={!open} className={styles["dialog"]}>
         <p className={styles["dialog-title"]}>{title}</p>
         {children}
+        {error ? (
+          <div className={styles["error-div"]}>
+            <AlertTriangle color="#ff0033" />
+            <p>{error}</p>
+          </div>
+        ) : null}
         <div className={styles["dialog-buttons-container"]}>
           <button form={form} type="submit">
             <Check size={16} /> Potvrdi

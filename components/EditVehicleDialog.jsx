@@ -4,7 +4,6 @@ import Form from "@/layouts/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
 import { toJS } from "mobx";
-import { AlertTriangle } from "lucide-react";
 
 export default function EditVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
@@ -90,6 +89,7 @@ export default function EditVehicleDialog({ open, setOpen }) {
       setOpen={setOpen}
       form={"edit-car-form"}
       resetState={resetState}
+      error={error}
     >
       <Form handleSubmit={handleSubmit} formId={"edit-car-form"}>
         <label>Marka vozila</label>
@@ -144,12 +144,6 @@ export default function EditVehicleDialog({ open, setOpen }) {
             />
           </div>
         </div>
-        {error ? (
-          <div className={styles["error-div"]}>
-            <AlertTriangle color="#ff0033" />
-            <p>{error}</p>
-          </div>
-        ) : null}
       </Form>
     </Dialog>
   );
