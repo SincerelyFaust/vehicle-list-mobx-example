@@ -8,8 +8,17 @@
     position: relative;
 
     @media (max-width: 1040px) {
-        flex: 1;
-    }
+      flex: 1;
+  }
+  }
+
+  .custom-select:last-of-type {
+    @media (max-width: 1040px) {
+      flex: 3;
+  }
+  @media (max-width: 600px) {
+    flex-basis: 50%; 
+}
   }
 
   @keyframes animateSelect {
@@ -47,7 +56,7 @@
 }
   
   .select-items {
-    width: max-content;
+    width: calc(100% + 6rem);
     display: none;
     position: absolute;
     top: 100%;
