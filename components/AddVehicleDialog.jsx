@@ -1,15 +1,17 @@
 import Dialog from "@/components/Dialog";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Form from "@/layouts/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
+import CustomSelect from "@/components/CustomSelect";
+import { Car } from "lucide-react";
 
 export default function AddVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
   const [makeAbrvInput, setMakeAbrvInput] = useState("");
   const [modelNameInput, setModelNameInput] = useState("");
   const [modelAbrvInput, setModelAbrvInput] = useState("");
-  const [makeSelected, setMakeSelected] = useState("1");
+  const [makeSelected, setMakeSelected] = useState(0);
   const [error, setError] = useState("");
 
   const store = useStore();
@@ -20,37 +22,38 @@ export default function AddVehicleDialog({ open, setOpen }) {
     setMakeAbrvInput("");
     setModelNameInput("");
     setModelAbrvInput("");
-    setMakeSelected("1");
+    setMakeSelected(0);
     setError("");
   }
 
-  useEffect(() => {
-    function findMake(makeId) {
-      const vehicleMake = store.VehicleMake.find((make) => make.id === makeId);
+  const vehicleMakeOptions = {
+    Dodaj: [{ value: 0, label: "Dodaj" }],
+    "Postojeće marke": [
+      ...store.VehicleMake.map((make) => ({
+        value: make.id,
+        label: make.abrv,
+      })),
+    ],
+  };
 
-      if (vehicleMake) {
-        setMakeNameInput(vehicleMake.name);
-        setMakeAbrvInput(vehicleMake.abrv);
-      } else {
-        if (store.VehicleMake.length > 0) {
-          const firstAvailableMake = store.VehicleMake[0];
-          setMakeSelected(+firstAvailableMake.id);
-        } else {
-          setMakeSelected("0");
-          setMakeNameInput("");
-          setMakeAbrvInput("");
-        }
-      }
+  function findMake(makeId) {
+    const vehicleMake = store.VehicleMake.find((make) => make.id === makeId);
+
+    if (vehicleMake) {
+      setMakeNameInput(vehicleMake.name);
+      setMakeAbrvInput(vehicleMake.abrv);
     }
+  }
 
-    if (+makeSelected !== 0) {
-      findMake(+makeSelected);
-    } else {
-      setMakeSelected("0");
+  function handleMakeSelectChange(value) {
+    if (value === 0) {
+      setMakeSelected(0);
       setMakeNameInput("");
       setMakeAbrvInput("");
+    } else {
+      findMake(value);
     }
-  }, [makeSelected, store.VehicleMake, open]);
+  }
 
   async function addVehicleToAPI(newVehicleData) {
     try {
@@ -109,23 +112,18 @@ export default function AddVehicleDialog({ open, setOpen }) {
         <label>Marka vozila</label>
         <div className={styles["form-content"]}>
           <div className={styles["form-item"]}>
-            <select
-              onChange={(e) => {
-                setMakeSelected(e.target.value);
+            <CustomSelect
+              selectHeader={{
+                title: "Odaberi postojeću marku",
+                icon: <Car size={14} />,
               }}
-              value={makeSelected}
-            >
-              {store.VehicleMake.map((vehicleMake) => {
-                return (
-                  <option key={vehicleMake.id} value={vehicleMake.id}>
-                    {vehicleMake.abrv}
-                  </option>
-                );
-              })}
-              <option value={0}>+ Dodaj</option>
-            </select>
+              options={[vehicleMakeOptions]}
+              selectedOption={makeSelected}
+              setSelectedOption={setMakeSelected}
+              onChange={handleMakeSelectChange}
+            />
           </div>
-          {makeSelected === "0" || store.VehicleMake.length < 1 ? (
+          {makeSelected === 0 || store.VehicleMake.length < 1 ? (
             <>
               <div className={styles["form-item"]}>
                 <label htmlFor="make_name_input">Naziv</label>
