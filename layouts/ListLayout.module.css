@@ -25,7 +25,7 @@
 
     @media (max-width: 1040px) {
         padding: unset;
-       margin-bottom: 2rem;
+       margin-bottom: 1rem;
     }
 }
 
@@ -65,19 +65,18 @@
 
 .buttons-div button {
     color: white;
-    min-width: 6rem;
     padding: 0 1rem;
-    height: 2rem;
+    min-height: 2rem;
     border-radius: 0.4rem;
     background-color: rgb(58, 58, 58);
     border: none;
     cursor: pointer;
+    white-space: nowrap;
     appearance: none;
     outline: 1px solid rgb(85, 85, 85);
     font-size: 0.8rem;
 
     @media (max-width: 1040px) {
-        width: unset;
         flex: 1;
     }
 }
