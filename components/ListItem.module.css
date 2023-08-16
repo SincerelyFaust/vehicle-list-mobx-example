@@ -84,3 +84,14 @@
 .button-div button:hover {
     background-color: rgb(44, 44, 44);
 }
+
+.make-model-span {
+    display: none;
+    margin-left: 0 !important;
+    font-size: 0.9rem;
+
+    @media (max-width: 1040px) {
+    display: block;
+    margin-bottom: 0.8rem;
+}
+}

@@ -13,9 +13,11 @@ export default function ListItem({
   return (
     <li className={styles["list-item"]}>
       <p>
+        <span className={styles["make-model-span"]}>Marka</span>
         {make.name} <span>({make.abrv})</span>
       </p>
       <p>
+        <span className={styles["make-model-span"]}>Model</span>
         {model.name} <span>({model.abrv})</span>
       </p>
       <div className={styles["button-div"]}>
