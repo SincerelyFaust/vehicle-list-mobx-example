@@ -13,7 +13,7 @@ import { ArrowDownAZ, Filter, PlusCircle } from "lucide-react";
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
   const [sortChoice, setSortChoice] = useState("");
-  const [filterChoice, setFilterChoice] = useState("");
+  const [filterChoice, setFilterChoice] = useState(null);
   const [openEditVehicleDialog, setOpenEditVehicleDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState(currentPage);

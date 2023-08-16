@@ -33,7 +33,7 @@ export class VehicleStore {
     }
 
     const vehicleMake = this.VehicleMake.find(
-      (make) => make.id === +this.filterChoice
+      (make) => make.id === this.filterChoice
     );
 
     if (!vehicleMake) return this.VehicleModel;
