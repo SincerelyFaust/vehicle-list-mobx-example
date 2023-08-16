@@ -20,7 +20,7 @@ function CustomSelect({
       }
     };
 
-    if (open) {
+    if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
