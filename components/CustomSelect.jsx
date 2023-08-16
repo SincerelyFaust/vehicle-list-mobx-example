@@ -37,11 +37,12 @@ function CustomSelect({
   }
 
   return (
-    <div ref={selectRef} className={styles["custom-select"]}>
-      <div
-        className={styles["select-selected"]}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+    <div
+      ref={selectRef}
+      className={styles["custom-select"]}
+      onClick={() => setIsOpen(!isOpen)}
+    >
+      <div className={styles["select-selected"]}>
         {selectedOption || (
           <>
             {selectHeader.icon} {selectHeader.title}
