@@ -29,8 +29,15 @@ export default function Dialog({
   }, [resetState, open]);
 
   return (
-    <div hidden={!open} className={styles["dialog-container"]}>
-      <dialog ref={dialogRef} hidden={!open} className={styles["dialog"]}>
+    <div
+      className={
+        open ? styles["dialog-container"] : styles["dialog-container-closed"]
+      }
+    >
+      <dialog
+        ref={dialogRef}
+        className={open ? styles["dialog"] : styles["dialog-closed"]}
+      >
         <p className={styles["dialog-title"]}>{title}</p>
         {children}
         {error ? (
