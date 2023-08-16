@@ -56,7 +56,8 @@
 }
   
   .select-items {
-    width: calc(100% + 3rem);
+    min-width: min-content;
+    max-width: 100%;
     display: none;
     position: absolute;
     top: 100%;
@@ -72,10 +73,6 @@
     overflow-y: auto;
     overflow-x: hidden;
     animation: 0.2s ease-in-out 0s 1 animateSelect;
-
-    @media (max-width: 1040px) {
-      width: 100%;
-     }
   }
 
   .custom-select ::-webkit-scrollbar {
@@ -98,6 +95,7 @@
     padding: 0.4rem 0.5rem;
     font-size: 0.8rem;
     border-radius: 0.4rem;
+    min-width: 8rem;
   }
 
   .select-group {
