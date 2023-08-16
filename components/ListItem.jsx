@@ -25,7 +25,7 @@ export default function ListItem({
             setOpenEditVehicleDialog(!openEditVehicleDialog);
           }}
         >
-          <Edit size={16} />
+          <Edit size={16} /> <p>Uredi</p>
         </button>
         <button
           onClick={() => {
@@ -42,7 +42,7 @@ export default function ListItem({
             });
           }}
         >
-          <XCircle size={16} />
+          <XCircle size={16} /> <p>Izbriši</p>
         </button>
       </div>
     </li>

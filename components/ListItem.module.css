@@ -40,6 +40,7 @@
     flex-direction: row;
     align-items: center;
     gap: 1.2rem;
+    flex-wrap: wrap;
 
     @media (max-width: 1040px) {
         width: 100%;
@@ -57,14 +58,27 @@
     outline: 1px solid rgb(85, 85, 85);
 
     @media (max-width: 1040px) {
-        width: 50%;
-        height: 2.4rem;
-        border-radius: 1.6rem;
+    min-width: 6rem;
+    flex: 1;
+    border-radius: 1.6rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+       }
+}
+
+.button-div p {
+    display: none;
+
+    @media (max-width: 1040px) {
+  display: block;
        }
 }
 
 .button-div svg {
-    vertical-align: middle;
+    vertical-align: sub;
 }
 
 .button-div button:hover {
