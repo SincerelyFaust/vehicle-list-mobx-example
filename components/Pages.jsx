@@ -1,5 +1,6 @@
 import styles from "@/components/Pages.module.css";
 import { ArrowRight, ArrowLeft } from "lucide-react";
+import { useEffect } from "react";
 
 export default function Pages({
   itemCount,
@@ -10,6 +11,13 @@ export default function Pages({
   setPageInput,
 }) {
   const pagesCount = Math.ceil(itemCount / displayItems);
+
+  useEffect(() => {
+    if ((currentPage - 1) * displayItems >= itemCount && currentPage > 1) {
+      onPageChange(currentPage - 1);
+      setPageInput(currentPage - 1);
+    }
+  }, [itemCount, currentPage, displayItems, onPageChange, setPageInput]);
 
   function handleSubmit(event) {
     event.preventDefault();
