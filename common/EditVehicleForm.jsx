@@ -2,7 +2,7 @@ import { Form } from "mobx-react-form";
 import dvr from "mobx-react-form/lib/validators/DVR";
 import validatorjs from "validatorjs";
 
-export class AddVehicleForm extends Form {
+export class EditVehicleForm extends Form {
   plugins() {
     return {
       dvr: dvr(validatorjs),
@@ -14,26 +14,26 @@ export class AddVehicleForm extends Form {
       fields: [
         {
           name: "makeName",
-          label: "Naziv marke",
-          placeholder: "Unesite naziv marke vozila",
+          label: "Novi naziv marke",
+          placeholder: "Unesite novi naziv marke vozila",
           rules: "required|string|between:2,50",
         },
         {
           name: "makeAbrv",
-          label: "Skraćenica marke",
-          placeholder: "Unesite skraćenicu marke vozila",
+          label: "Nova skraćenica marke",
+          placeholder: "Unesite novu skraćenicu marke vozila",
           rules: "required|string|between:1,10",
         },
         {
           name: "modelName",
-          label: "Naziv modela",
-          placeholder: "Unesite naziv modela vozila",
+          label: "Novi naziv modela",
+          placeholder: "Unesite novi naziv modela vozila",
           rules: "required|string|between:2,50",
         },
         {
           name: "modelAbrv",
-          label: "Skraćenica modela",
-          placeholder: "Unesite skraćenicu modela vozila",
+          label: "Nova skraćenica modela",
+          placeholder: "Unesite novu skraćenicu modela vozila",
           rules: "required|string|between:1,10",
         },
       ],
@@ -43,7 +43,7 @@ export class AddVehicleForm extends Form {
   hooks() {
     return {
       onSuccess(form) {
-        alert(`Uspješno dodano!`);
+        alert(`Uspješno uređeno!`);
         console.log("Form Values!", form.values());
       },
       onError(form) {
