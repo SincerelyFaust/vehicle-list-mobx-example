@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import styles from "./StyledInput.module.css";
 import { AlertTriangle } from "lucide-react";
 
-export default observer(({ field }) => (
+const StyledInput = observer(({ field }) => (
   <div className={styles["form-item"]}>
     <label htmlFor={field.id}>{field.label}</label>
     <input
@@ -10,12 +10,12 @@ export default observer(({ field }) => (
       className={field.error ? styles["input-error"] : null}
     />
     {field.error ? (
-      <>
-        <div className={styles["error-div"]}>
-          <AlertTriangle size={18} color="#ff0033" />
-          <span>{field.error}</span>
-        </div>
-      </>
+      <div className={styles["error-div"]}>
+        <AlertTriangle size={18} color="#ff0033" />
+        <span>{field.error}</span>
+      </div>
     ) : null}
   </div>
 ));
+
+export default StyledInput;
