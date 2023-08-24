@@ -6,6 +6,7 @@ import styles from "@/components/StyledDialog.module.css";
 import { HttpClient } from "@/common/HttpClient";
 import { ModelService } from "@/common/ModelService";
 import { MakeService } from "@/common/MakeService";
+import { toJS } from "mobx";
 
 export default function EditVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
@@ -57,7 +58,12 @@ export default function EditVehicleDialog({ open, setOpen }) {
       },
     };
 
-    if (data.model !== currentModel) {
+    const isMakeEqual =
+      JSON.stringify(toJS(currentMake)) === JSON.stringify(data.make);
+    const isModelEqual =
+      JSON.stringify(toJS(currentModel)) === JSON.stringify(data.model);
+
+    if (!isModelEqual) {
       const modelResponse = await modelService.editModel(
         data.model,
         currentModel
@@ -70,7 +76,7 @@ export default function EditVehicleDialog({ open, setOpen }) {
       store.editModelToStore(data.model, currentModel);
     }
 
-    if (data.make !== currentMake) {
+    if (!isMakeEqual) {
       const makeResponse = await makeService.editMake(data.make, currentMake);
 
       if (makeResponse) {
