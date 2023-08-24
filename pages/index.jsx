@@ -1,8 +1,7 @@
 import ListItem from "@/components/ListItem";
 import ListLayout from "@/layouts/ListLayout";
 import { useStore } from "@/common/StoreProvider";
-import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { observer, useLocalObservable } from "mobx-react-lite";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
 import SortVehicle from "@/common/SortVehicle";
 import EditVehicleDialog from "@/components/EditVehicleDialog";
@@ -14,19 +13,45 @@ import { ModelService } from "@/common/ModelService";
 import { MakeService } from "@/common/MakeService";
 
 const Home = observer(function Home() {
-  const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
-  const [sortChoice, setSortChoice] = useState("");
-  const [filterChoice, setFilterChoice] = useState(null);
-  const [openEditVehicleDialog, setOpenEditVehicleDialog] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageInput, setPageInput] = useState(currentPage);
+  const dialogState = useLocalObservable(() => ({
+    openAddVehicleDialog: false,
+    openEditVehicleDialog: false,
+    setOpenAddVehicleDialog(value) {
+      this.openAddVehicleDialog = value;
+    },
+    setOpenEditVehicleDialog(value) {
+      this.openEditVehicleDialog = value;
+    },
+  }));
+
+  const pageState = useLocalObservable(() => ({
+    currentPage: 1,
+    pageInput: 1,
+    setCurrentPage(value) {
+      this.currentPage = value;
+    },
+    setPageInput(value) {
+      this.pageInput = value;
+    },
+  }));
+
+  const choiceState = useLocalObservable(() => ({
+    sortChoice: "",
+    filterChoice: null,
+    setSortChoice(value) {
+      this.sortChoice = value;
+    },
+    setFilterChoice(value) {
+      this.filterChoice = value;
+    },
+  }));
 
   const store = useStore();
 
   const itemsToDisplay = 8;
 
   function displayVehicles() {
-    const start = (currentPage - 1) * itemsToDisplay;
+    const start = (pageState.currentPage - 1) * itemsToDisplay;
     return store.filteredVehicleModelData.slice(start, start + itemsToDisplay);
   }
 
@@ -36,8 +61,8 @@ const Home = observer(function Home() {
 
   function handleFilterSelectChange(value) {
     store.setFilterChoice(value);
-    setCurrentPage(1);
-    setPageInput(1);
+    pageState.setCurrentPage(1);
+    pageState.setPageInput(1);
   }
 
   const sortOptions = {
@@ -58,19 +83,21 @@ const Home = observer(function Home() {
   return (
     <>
       <AddVehicleDialog
-        open={openAddVehicleDialog}
-        setOpen={setOpenAddVehicleDialog}
+        open={dialogState.openAddVehicleDialog}
+        setOpen={dialogState.setOpenAddVehicleDialog}
       />
       <EditVehicleDialog
-        open={openEditVehicleDialog}
-        setOpen={setOpenEditVehicleDialog}
+        open={dialogState.openEditVehicleDialog}
+        setOpen={dialogState.setOpenEditVehicleDialog}
       />
       <ListLayout
         buttons={
           <>
             <button
               onClick={() => {
-                setOpenAddVehicleDialog(!openAddVehicleDialog);
+                dialogState.setOpenAddVehicleDialog(
+                  !dialogState.openAddVehicleDialog
+                );
               }}
             >
               <PlusCircle size={14} /> Dodaj
@@ -81,8 +108,8 @@ const Home = observer(function Home() {
                 icon: <ArrowDownAZ size={14} />,
               }}
               options={[sortOptions]}
-              selectedOption={sortChoice}
-              setSelectedOption={setSortChoice}
+              selectedOption={choiceState.sortChoice}
+              setSelectedOption={choiceState.setSortChoice}
               onChange={handleSortSelectChange}
             />
             <CustomSelect
@@ -91,8 +118,8 @@ const Home = observer(function Home() {
                 icon: <Filter size={14} />,
               }}
               options={[filterOptions]}
-              selectedOption={filterChoice}
-              setSelectedOption={setFilterChoice}
+              selectedOption={choiceState.filterChoice}
+              setSelectedOption={choiceState.setFilterChoice}
               onChange={handleFilterSelectChange}
             />
           </>
@@ -107,8 +134,8 @@ const Home = observer(function Home() {
             <ListItem
               key={vehicleModel.id}
               vehicle={{ make: vehicleMake, model: vehicleModel }}
-              setOpenEditVehicleDialog={setOpenEditVehicleDialog}
-              openEditVehicleDialog={openEditVehicleDialog}
+              setOpenEditVehicleDialog={dialogState.setOpenEditVehicleDialog}
+              openEditVehicleDialog={dialogState.openEditVehicleDialog}
             />
           );
         })}
@@ -116,10 +143,10 @@ const Home = observer(function Home() {
       <Pages
         itemCount={store.filteredVehicleModelData.length}
         displayItems={itemsToDisplay}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-        pageInput={pageInput}
-        setPageInput={setPageInput}
+        currentPage={pageState.currentPage}
+        onPageChange={pageState.setCurrentPage}
+        pageInput={pageState.pageInput}
+        setPageInput={pageState.setPageInput}
       />
     </>
   );
