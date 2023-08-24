@@ -1,7 +1,4 @@
-import { makeAutoObservable } from "mobx";
-import addVehicle from "@/common/AddVehicle";
-import deleteVehicle from "@/common/DeleteVehicle";
-import editVehicle from "@/common/EditVehicle";
+import { makeObservable, observable, action, computed } from "mobx";
 
 export class VehicleStore {
   VehicleMake = [];
@@ -13,15 +10,30 @@ export class VehicleStore {
   };
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      VehicleMake: observable,
+      VehicleModel: observable,
+      filterChoice: observable,
+      currentVehicle: observable,
+      hydrate: action.bound,
+      setFilterChoice: action.bound,
+      filteredVehicleModelData: computed,
+      setCurrentVehicle: action.bound,
+      addMakeToStore: action.bound,
+      addModelToStore: action.bound,
+      deleteMakeToStore: action.bound,
+      deleteModelToStore: action.bound,
+      editMakeToStore: action.bound,
+      editModelToStore: action.bound,
+    });
   }
 
-  hydrate = (data) => {
+  hydrate(data) {
     if (!data) return;
 
     this.VehicleMake = data.VehicleMake;
     this.VehicleModel = data.VehicleModel;
-  };
+  }
 
   setFilterChoice(newChoice) {
     this.filterChoice = newChoice;
@@ -45,20 +57,31 @@ export class VehicleStore {
     this.currentVehicle = { make, model };
   }
 
-  addVehicleToStore(newVehicleData) {
-    addVehicle(this.VehicleMake, this.VehicleModel, newVehicleData);
+  addMakeToStore(data) {
+    this.VehicleMake.push(data);
   }
 
-  deleteVehicleToStore(selectedVehicleData) {
-    deleteVehicle(this.VehicleMake, this.VehicleModel, selectedVehicleData);
+  addModelToStore(data) {
+    this.VehicleModel.push(data);
   }
 
-  editVehicleToStore(editedVehicleData) {
-    editVehicle(
-      this.VehicleMake,
-      this.VehicleModel,
-      this.currentVehicle,
-      editedVehicleData
-    );
+  deleteMakeToStore(data) {
+    const vehicleMakeIndex = this.VehicleMake.indexOf(data);
+    this.VehicleMake.splice(vehicleMakeIndex, 1);
+  }
+
+  deleteModelToStore(data) {
+    const vehicleModelIndex = this.VehicleModel.indexOf(data);
+    this.VehicleModel.splice(vehicleModelIndex, 1);
+  }
+
+  editMakeToStore(data, selected) {
+    const vehicleMakeIndex = this.VehicleMake.indexOf(selected);
+    this.VehicleMake[vehicleMakeIndex] = data;
+  }
+
+  editModelToStore(data, selected) {
+    const vehicleModelIndex = this.VehicleModel.indexOf(selected);
+    this.VehicleModel[vehicleModelIndex] = data;
   }
 }

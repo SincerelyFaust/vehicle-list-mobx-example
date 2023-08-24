@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import Form from "@/layouts/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
-import { toJS } from "mobx";
+import { HttpClient } from "@/common/HttpClient";
+import { ModelService } from "@/common/ModelService";
+import { MakeService } from "@/common/MakeService";
 
 export default function EditVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
@@ -13,8 +15,11 @@ export default function EditVehicleDialog({ open, setOpen }) {
   const [error, setError] = useState("");
 
   const store = useStore();
-
   const currentVehicle = store.currentVehicle;
+
+  const httpClient = new HttpClient();
+  const modelService = new ModelService(httpClient);
+  const makeService = new MakeService(httpClient);
 
   useEffect(() => {
     setMakeNameInput(currentVehicle.make.name);
@@ -32,52 +37,48 @@ export default function EditVehicleDialog({ open, setOpen }) {
     setError("");
   }
 
-  async function editVehicleToAPI(rawCurrentVehicle, editedVehicleData) {
-    try {
-      const response = await fetch("/api/vehicles", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rawCurrentVehicle,
-          editedVehicleData,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      return error.message;
-    }
-  }
-
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const editedVehicleData = {
-      editedMake: {
+    const currentModel = currentVehicle.model;
+    const currentMake = currentVehicle.make;
+
+    const data = {
+      make: {
+        id: currentMake.id,
         name: makeNameInput,
         abrv: makeAbrvInput,
       },
-      editedModel: { name: modelNameInput, abrv: modelAbrvInput },
+      model: {
+        id: currentModel.id,
+        makeid: currentModel.makeid,
+        name: modelNameInput,
+        abrv: modelAbrvInput,
+      },
     };
 
-    const rawCurrentVehicle = toJS(store.currentVehicle);
+    if (data.model !== currentModel) {
+      const modelResponse = await modelService.editModel(
+        data.model,
+        currentModel
+      );
 
-    const response = await editVehicleToAPI(
-      rawCurrentVehicle,
-      editedVehicleData
-    );
+      if (modelResponse) {
+        return setError(modelResponse);
+      }
 
-    if (response) {
-      return setError(response);
+      store.editModelToStore(data.model, currentModel);
     }
 
-    store.editVehicleToStore(editedVehicleData);
+    if (data.make !== currentMake) {
+      const makeResponse = await makeService.editMake(data.make, currentMake);
+
+      if (makeResponse) {
+        return setError(makeResponse);
+      }
+
+      store.editMakeToStore(data.make, currentMake);
+    }
 
     resetState();
   }

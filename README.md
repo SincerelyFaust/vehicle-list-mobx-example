@@ -8,7 +8,8 @@ pnpm i
 ```
 2. Stvori datoteku pod imenom `.env.local` i zalijepi sljedeće:
 ```
-NEXT_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 ```
 3. Pokreni dev server:
 ```bash

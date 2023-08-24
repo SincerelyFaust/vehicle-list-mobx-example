@@ -5,26 +5,23 @@ import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
 import CustomSelect from "@/components/CustomSelect";
 import { Car } from "lucide-react";
+import { HttpClient } from "@/common/HttpClient";
+import { ModelService } from "@/common/ModelService";
+import { MakeService } from "@/common/MakeService";
 
 export default function AddVehicleDialog({ open, setOpen }) {
   const [makeNameInput, setMakeNameInput] = useState("");
   const [makeAbrvInput, setMakeAbrvInput] = useState("");
   const [modelNameInput, setModelNameInput] = useState("");
   const [modelAbrvInput, setModelAbrvInput] = useState("");
-  const [makeSelected, setMakeSelected] = useState(0);
+  const [selectedMakeId, setSelectedMakeId] = useState(0);
+  const [selectedMakeName, setSelectedMakeName] = useState("");
   const [error, setError] = useState("");
 
   const store = useStore();
-
-  function resetState() {
-    setOpen(!open);
-    setMakeNameInput("");
-    setMakeAbrvInput("");
-    setModelNameInput("");
-    setModelAbrvInput("");
-    setMakeSelected(0);
-    setError("");
-  }
+  const httpClient = new HttpClient();
+  const modelService = new ModelService(httpClient);
+  const makeService = new MakeService(httpClient);
 
   const vehicleMakeOptions = {
     Dodaj: [{ value: 0, label: "Dodaj" }],
@@ -35,6 +32,17 @@ export default function AddVehicleDialog({ open, setOpen }) {
       })),
     ],
   };
+
+  function resetState() {
+    setOpen(!open);
+    setMakeNameInput("");
+    setMakeAbrvInput("");
+    setModelNameInput("");
+    setModelAbrvInput("");
+    setSelectedMakeId(0);
+    setSelectedMakeName("");
+    setError("");
+  }
 
   function findMake(makeId) {
     const vehicleMake = store.VehicleMake.find((make) => make.id === makeId);
@@ -47,54 +55,63 @@ export default function AddVehicleDialog({ open, setOpen }) {
 
   function handleMakeSelectChange(value) {
     if (value === 0) {
-      setMakeSelected(0);
+      setSelectedMakeId(0);
       setMakeNameInput("");
       setMakeAbrvInput("");
     } else {
+      setSelectedMakeId(value);
       findMake(value);
-    }
-  }
-
-  async function addVehicleToAPI(newVehicleData) {
-    try {
-      const response = await fetch("/api/vehicles", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          newVehicleData,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      return error.message;
     }
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const newVehicleData = {
-      newMake: {
+    const makeWithHighestId = store.VehicleMake.reduce(
+      (maxObj, currentObj) => {
+        return maxObj.id > currentObj.id ? maxObj.id : currentObj.id;
+      },
+      { id: -Infinity }
+    );
+
+    const modelWithHighestId = store.VehicleModel.reduce(
+      (maxObj, currentObj) => {
+        return maxObj.id > currentObj.id ? maxObj.id : currentObj.id;
+      },
+      { id: -Infinity }
+    );
+
+    const data = {
+      make: {
+        id: makeWithHighestId + 1,
         name: makeNameInput,
         abrv: makeAbrvInput,
       },
-      newModel: { name: modelNameInput, abrv: modelAbrvInput },
+      model: {
+        id: modelWithHighestId + 1,
+        name: modelNameInput,
+        abrv: modelAbrvInput,
+        makeid: selectedMakeId === 0 ? makeWithHighestId + 1 : selectedMakeId,
+      },
     };
 
-    const response = await addVehicleToAPI(newVehicleData);
+    if (selectedMakeId === 0) {
+      const makeResponse = await makeService.addMake(data.make);
 
-    if (response) {
-      return setError(response);
+      if (makeResponse) {
+        return setError(makeResponse);
+      }
+
+      store.addMakeToStore(data.make);
     }
 
-    store.addVehicleToStore(newVehicleData);
+    const modelResponse = await modelService.addModel(data.model);
+
+    if (modelResponse) {
+      return setError(modelResponse);
+    }
+
+    store.addModelToStore(data.model);
 
     resetState();
   }
@@ -118,12 +135,12 @@ export default function AddVehicleDialog({ open, setOpen }) {
                 icon: <Car size={14} />,
               }}
               options={[vehicleMakeOptions]}
-              selectedOption={makeSelected}
-              setSelectedOption={setMakeSelected}
+              selectedOption={selectedMakeName}
+              setSelectedOption={setSelectedMakeName}
               onChange={handleMakeSelectChange}
             />
           </div>
-          {makeSelected === 0 || store.VehicleMake.length < 1 ? (
+          {selectedMakeId === 0 || store.VehicleMake.length < 1 ? (
             <>
               <div className={styles["form-item"]}>
                 <label htmlFor="make_name_input">Naziv</label>

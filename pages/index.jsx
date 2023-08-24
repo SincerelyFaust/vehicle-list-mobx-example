@@ -9,6 +9,9 @@ import EditVehicleDialog from "@/components/EditVehicleDialog";
 import Pages from "@/components/Pages";
 import CustomSelect from "@/components/CustomSelect";
 import { ArrowDownAZ, Filter, PlusCircle } from "lucide-react";
+import { HttpClient } from "@/common/HttpClient";
+import { ModelService } from "@/common/ModelService";
+import { MakeService } from "@/common/MakeService";
 
 const Home = observer(function Home() {
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false);
@@ -125,10 +128,13 @@ const Home = observer(function Home() {
 export default Home;
 
 export async function getServerSideProps() {
-  const response = await fetch(`${process.env.NEXT_URL}/api/vehicles`, {
-    method: "GET",
-  });
-  const { VehicleMake, VehicleModel } = await response.json();
+  const httpClient = new HttpClient();
+  const modelService = new ModelService(httpClient);
+  const makeService = new MakeService(httpClient);
+
+  const VehicleMake = await makeService.getMakes();
+  const VehicleModel = await modelService.getModels();
+
   return {
     props: {
       initialState: {

@@ -1,6 +1,8 @@
 import styles from "@/components/ListItem.module.css";
 import { useStore } from "@/common/StoreProvider";
 import { Edit, XCircle } from "lucide-react";
+import { HttpClient } from "@/common/HttpClient";
+import { ModelService } from "@/common/ModelService";
 
 export default function ListItem({
   vehicle,
@@ -8,7 +10,20 @@ export default function ListItem({
   openEditVehicleDialog,
 }) {
   const { make, model } = vehicle;
+
   const store = useStore();
+  const httpClient = new HttpClient();
+  const modelService = new ModelService(httpClient);
+
+  async function handleClick() {
+    const modelResponse = await modelService.deleteModel(model);
+
+    if (modelResponse) {
+      return console.error(modelResponse);
+    }
+
+    store.deleteModelToStore(model);
+  }
 
   return (
     <li className={styles["list-item"]}>
@@ -29,21 +44,7 @@ export default function ListItem({
         >
           <Edit size={16} /> <p>Uredi</p>
         </button>
-        <button
-          onClick={() => {
-            store.deleteVehicleToStore(vehicle);
-
-            fetch("/api/vehicles", {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                selectedVehicleData: vehicle,
-              }),
-            });
-          }}
-        >
+        <button onClick={() => handleClick()}>
           <XCircle size={16} /> <p>Izbriši</p>
         </button>
       </div>
