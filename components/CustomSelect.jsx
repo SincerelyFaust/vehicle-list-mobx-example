@@ -1,36 +1,41 @@
-import { useState } from "react";
 import styles from "./CustomSelect.module.css";
 import { useRef, useEffect } from "react";
+import { observer, useLocalObservable } from "mobx-react-lite";
 
-function CustomSelect({
+export default observer(function AddVehicleDialog({
   selectHeader,
   options,
   selectedOption,
   setSelectedOption,
   onChange,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const state = useLocalObservable(() => ({
+    open: false,
+    setOpen(value) {
+      this.open = value;
+    },
+  }));
 
   const selectRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (selectRef.current && !selectRef.current.contains(event.target)) {
-        setIsOpen(false);
+        state.setOpen(false);
       }
     };
 
-    if (isOpen) {
+    if (state.open) {
       document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }
-  }, [isOpen]);
+  }, [state.open, state]);
 
   function handleOptionClick(option) {
     setSelectedOption(option.label);
-    setIsOpen(false);
+    state.setOpen(false);
     if (onChange) {
       onChange(option.value);
     }
@@ -40,7 +45,7 @@ function CustomSelect({
     <div
       ref={selectRef}
       className={styles["custom-select"]}
-      onClick={() => setIsOpen(!isOpen)}
+      onClick={() => state.setOpen(!state.open)}
     >
       <div className={styles["select-selected"]}>
         {selectedOption || (
@@ -49,7 +54,7 @@ function CustomSelect({
           </>
         )}
       </div>
-      {isOpen ? (
+      {state.open ? (
         <div className={styles["select-items"]}>
           {options.map((optionGroup, groupIndex) =>
             Object.entries(optionGroup).map(([groupName, groupOptions]) => (
@@ -62,7 +67,10 @@ function CustomSelect({
                   <div
                     key={index}
                     className={styles["select-option"]}
-                    onClick={() => handleOptionClick(option)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOptionClick(option);
+                    }}
                   >
                     {option.label}
                   </div>
@@ -74,6 +82,4 @@ function CustomSelect({
       ) : null}
     </div>
   );
-}
-
-export default CustomSelect;
+});
