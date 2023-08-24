@@ -134,7 +134,6 @@ export default observer(function AddVehicleDialog({ open, setOpen }) {
     <Dialog
       title={"Dodaj novo vozilo"}
       open={open}
-      setOpen={setOpen}
       form={"add-car-form"}
       resetState={resetState}
       error={error.message}
