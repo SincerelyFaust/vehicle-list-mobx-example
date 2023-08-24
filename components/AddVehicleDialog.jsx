@@ -1,5 +1,4 @@
 import Dialog from "@/components/Dialog";
-import { useState } from "react";
 import Form from "@/layouts/Form";
 import { useStore } from "@/common/StoreProvider";
 import styles from "@/components/StyledDialog.module.css";
@@ -8,20 +7,34 @@ import { Car } from "lucide-react";
 import { HttpClient } from "@/common/HttpClient";
 import { ModelService } from "@/common/ModelService";
 import { MakeService } from "@/common/MakeService";
+import { observer, useLocalObservable } from "mobx-react-lite";
+import { AddVehicleForm } from "@/common/AddVehicleForm";
+import StyledInput from "./StyledInput";
 
-export default function AddVehicleDialog({ open, setOpen }) {
-  const [makeNameInput, setMakeNameInput] = useState("");
-  const [makeAbrvInput, setMakeAbrvInput] = useState("");
-  const [modelNameInput, setModelNameInput] = useState("");
-  const [modelAbrvInput, setModelAbrvInput] = useState("");
-  const [selectedMakeId, setSelectedMakeId] = useState(0);
-  const [selectedMakeName, setSelectedMakeName] = useState("");
-  const [error, setError] = useState("");
-
+export default observer(function AddVehicleDialog({ open, setOpen }) {
   const store = useStore();
   const httpClient = new HttpClient();
   const modelService = new ModelService(httpClient);
   const makeService = new MakeService(httpClient);
+  const form = useLocalObservable(() => new AddVehicleForm());
+
+  const selectMake = useLocalObservable(() => ({
+    id: 0,
+    name: "",
+    setId(value) {
+      this.id = value;
+    },
+    setName(value) {
+      this.name = value;
+    },
+  }));
+
+  const error = useLocalObservable(() => ({
+    message: "",
+    setMessage(value) {
+      this.message = value;
+    },
+  }));
 
   const vehicleMakeOptions = {
     Dodaj: [{ value: 0, label: "Dodaj" }],
@@ -33,87 +46,88 @@ export default function AddVehicleDialog({ open, setOpen }) {
     ],
   };
 
-  function resetState() {
-    setOpen(!open);
-    setMakeNameInput("");
-    setMakeAbrvInput("");
-    setModelNameInput("");
-    setModelAbrvInput("");
-    setSelectedMakeId(0);
-    setSelectedMakeName("");
-    setError("");
-  }
-
   function findMake(makeId) {
     const vehicleMake = store.VehicleMake.find((make) => make.id === makeId);
 
     if (vehicleMake) {
-      setMakeNameInput(vehicleMake.name);
-      setMakeAbrvInput(vehicleMake.abrv);
+      form.$("makeName").set(vehicleMake.name);
+      form.$("makeAbrv").set(vehicleMake.abrv);
     }
   }
 
   function handleMakeSelectChange(value) {
     if (value === 0) {
-      setSelectedMakeId(0);
-      setMakeNameInput("");
-      setMakeAbrvInput("");
+      selectMake.setId(0);
+      form.$("makeName").set("");
+      form.$("makeAbrv").set("");
     } else {
-      setSelectedMakeId(value);
+      selectMake.setId(value);
       findMake(value);
     }
+  }
+
+  function resetState() {
+    setOpen(!open);
+    form.reset();
+    selectMake.setId(0);
+    selectMake.setName("");
+    error.setMessage("");
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const makeWithHighestId = store.VehicleMake.reduce(
-      (maxObj, currentObj) => {
-        return maxObj.id > currentObj.id ? maxObj.id : currentObj.id;
-      },
-      { id: -Infinity }
-    );
+    form.validate();
 
-    const modelWithHighestId = store.VehicleModel.reduce(
-      (maxObj, currentObj) => {
-        return maxObj.id > currentObj.id ? maxObj.id : currentObj.id;
-      },
-      { id: -Infinity }
-    );
+    if (form.isValid) {
+      const makeWithHighestId =
+        store.VehicleMake.length > 0
+          ? Math.max(...store.VehicleMake.map((make) => make.id))
+          : 0;
 
-    const data = {
-      make: {
-        id: makeWithHighestId + 1,
-        name: makeNameInput,
-        abrv: makeAbrvInput,
-      },
-      model: {
-        id: modelWithHighestId + 1,
-        name: modelNameInput,
-        abrv: modelAbrvInput,
-        makeid: selectedMakeId === 0 ? makeWithHighestId + 1 : selectedMakeId,
-      },
-    };
+      const modelWithHighestId =
+        store.VehicleModel.length > 0
+          ? Math.max(...store.VehicleModel.map((model) => model.id))
+          : 0;
 
-    if (selectedMakeId === 0) {
-      const makeResponse = await makeService.addMake(data.make);
+      const data = {
+        make: {
+          id: makeWithHighestId + 1,
+          name: form.values().makeName,
+          abrv: form.values().makeAbrv,
+        },
+        model: {
+          id: modelWithHighestId + 1,
+          name: form.values().modelName,
+          abrv: form.values().modelAbrv,
+          makeid: selectMake.id === 0 ? makeWithHighestId + 1 : selectMake.id,
+        },
+      };
 
-      if (makeResponse) {
-        return setError(makeResponse);
+      if (selectMake.id === 0) {
+        const makeResponse = await makeService.addMake(data.make);
+
+        if (makeResponse) {
+          return error.setMessage(makeResponse);
+        }
+
+        store.addMakeToStore(data.make);
       }
 
-      store.addMakeToStore(data.make);
+      const modelResponse = await modelService.addModel(data.model);
+
+      if (modelResponse) {
+        return error.setMessage(modelResponse);
+      }
+
+      store.addModelToStore(data.model);
+
+      form.onSubmit();
+
+      resetState();
+    } else {
+      error.setMessage("Molimo ispunita sva polja u obrascu.");
     }
-
-    const modelResponse = await modelService.addModel(data.model);
-
-    if (modelResponse) {
-      return setError(modelResponse);
-    }
-
-    store.addModelToStore(data.model);
-
-    resetState();
   }
 
   return (
@@ -123,7 +137,7 @@ export default function AddVehicleDialog({ open, setOpen }) {
       setOpen={setOpen}
       form={"add-car-form"}
       resetState={resetState}
-      error={error}
+      error={error.message}
     >
       <Form handleSubmit={handleSubmit} formId={"add-car-form"}>
         <label>Marka vozila</label>
@@ -135,68 +149,24 @@ export default function AddVehicleDialog({ open, setOpen }) {
                 icon: <Car size={14} />,
               }}
               options={[vehicleMakeOptions]}
-              selectedOption={selectedMakeName}
-              setSelectedOption={setSelectedMakeName}
+              selectedOption={selectMake.name}
+              setSelectedOption={selectMake.setName}
               onChange={handleMakeSelectChange}
             />
           </div>
-          {selectedMakeId === 0 || store.VehicleMake.length < 1 ? (
+          {selectMake.id === 0 || store.VehicleMake.length < 1 ? (
             <>
-              <div className={styles["form-item"]}>
-                <label htmlFor="make_name_input">Naziv</label>
-                <input
-                  placeholder="Unesite naziv marke vozila"
-                  required
-                  form={"add-car-form"}
-                  id="make_name_input"
-                  type="text"
-                  value={makeNameInput}
-                  onChange={(e) => setMakeNameInput(e.target.value)}
-                />
-              </div>
-              <div className={styles["form-item"]}>
-                <label htmlFor="make_abrv_input">Skraćenica</label>
-                <input
-                  placeholder="Unesite skraćenicu marke vozila"
-                  required
-                  form={"add-car-form"}
-                  id="make_abrv_input"
-                  type="text"
-                  value={makeAbrvInput}
-                  onChange={(e) => setMakeAbrvInput(e.target.value)}
-                />
-              </div>
+              <StyledInput field={form.$("makeName")} />
+              <StyledInput field={form.$("makeAbrv")} />
             </>
           ) : null}
         </div>
         <label>Model vozila</label>
         <div className={styles["form-content"]}>
-          <div className={styles["form-item"]}>
-            <label htmlFor="model_name_input">Naziv</label>
-            <input
-              placeholder="Unesite naziv modela vozila"
-              required
-              form={"add-car-form"}
-              id="model_name_input"
-              type="text"
-              value={modelNameInput}
-              onChange={(e) => setModelNameInput(e.target.value)}
-            />
-          </div>
-          <div className={styles["form-item"]}>
-            <label htmlFor="model_abrv_input">Skraćenica</label>
-            <input
-              placeholder="Unesite skraćenicu modela vozila"
-              required
-              form={"add-car-form"}
-              id="model_abrv_input"
-              type="text"
-              value={modelAbrvInput}
-              onChange={(e) => setModelAbrvInput(e.target.value)}
-            />
-          </div>
+          <StyledInput field={form.$("modelName")} />
+          <StyledInput field={form.$("modelAbrv")} />
         </div>
       </Form>
     </Dialog>
   );
-}
+});

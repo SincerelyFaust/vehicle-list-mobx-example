@@ -13,9 +13,11 @@
     "eslint-config-next": "13.4.12",
     "lucide-react": "^0.265.0",
     "mobx": "^6.10.0",
+    "mobx-react-form": "^6.3.6",
     "mobx-react-lite": "^4.0.3",
     "next": "13.4.12",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "validatorjs": "^3.22.1"
   }
 }
