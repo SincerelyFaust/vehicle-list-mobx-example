@@ -16,18 +16,18 @@ export default function EditVehicleDialog({ open, setOpen }) {
   const [error, setError] = useState("");
 
   const store = useStore();
-  const currentVehicle = store.currentVehicle;
+  const { make: currentMake, model: currentModel } = store.currentVehicle;
 
   const httpClient = new HttpClient();
   const modelService = new ModelService(httpClient);
   const makeService = new MakeService(httpClient);
 
   useEffect(() => {
-    setMakeNameInput(currentVehicle.make.name);
-    setMakeAbrvInput(currentVehicle.make.abrv);
-    setModelNameInput(currentVehicle.model.name);
-    setModelAbrvInput(currentVehicle.model.abrv);
-  }, [currentVehicle]);
+    setMakeNameInput(currentMake.name);
+    setMakeAbrvInput(currentMake.abrv);
+    setModelNameInput(currentModel.name);
+    setModelAbrvInput(currentModel.abrv);
+  }, [currentMake, currentModel, open]);
 
   function resetState() {
     setOpen(!open);
@@ -40,9 +40,6 @@ export default function EditVehicleDialog({ open, setOpen }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
-    const currentModel = currentVehicle.model;
-    const currentMake = currentVehicle.make;
 
     const data = {
       make: {
