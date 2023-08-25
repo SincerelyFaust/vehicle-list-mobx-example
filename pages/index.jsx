@@ -159,14 +159,14 @@ export async function getServerSideProps() {
   const modelService = new ModelService(httpClient);
   const makeService = new MakeService(httpClient);
 
-  const VehicleMake = await makeService.getMakes();
-  const VehicleModel = await modelService.getModels();
+  const vehicleMake = await makeService.getMakes();
+  const vehicleModel = await modelService.getModels();
 
   return {
     props: {
       initialState: {
-        VehicleMake,
-        VehicleModel,
+        vehicleMake,
+        vehicleModel,
       },
     },
   };

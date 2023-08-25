@@ -31,8 +31,8 @@ export class VehicleStore {
   hydrate(data) {
     if (!data) return;
 
-    this.VehicleMake = data.VehicleMake;
-    this.VehicleModel = data.VehicleModel;
+    this.VehicleMake = data.vehicleMake;
+    this.VehicleModel = data.vehicleModel;
   }
 
   setFilterChoice(newChoice) {
