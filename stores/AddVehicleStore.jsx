@@ -77,7 +77,7 @@ export default class AddVehicleStore {
   async addVehicle() {
     this.form.validate();
 
-    if (this.form.isValid)
+    if (!this.form.isValid)
       return (this.error = "Molimo ispunita sva polja u obrascu.");
 
     const makeHighestId = this.getHighestId(this.vehicleStore.VehicleMake);
