@@ -64,7 +64,7 @@ const Home = observer(function Home() {
         const alphabeticalMake = await makeService.getMakes("?order=name.asc");
         store.setMakes(alphabeticalMake);
 
-        const sortedModelsByMake = store.VehicleModel.sort((a, b) => {
+        const sortedModelsByMake = store.vehicleModel.sort((a, b) => {
           const makeA = alphabeticalMake.find((make) => make.id === a.makeid);
           const makeB = alphabeticalMake.find((make) => make.id === b.makeid);
           return (
@@ -97,7 +97,7 @@ const Home = observer(function Home() {
 
   const filterOptions = {
     "Sva vozila": [{ value: null, label: "Prikaži sve" }],
-    Marka: store.VehicleMake.map((make) => ({
+    Marka: store.vehicleMake.map((make) => ({
       value: make.id,
       label: `${make.name} (${make.abrv})`,
     })),
@@ -149,7 +149,7 @@ const Home = observer(function Home() {
         }
       >
         {displayVehicles().map((vehicleModel) => {
-          const vehicleMake = store.VehicleMake.find(
+          const vehicleMake = store.vehicleMake.find(
             (make) => make.id === vehicleModel.makeid
           );
 

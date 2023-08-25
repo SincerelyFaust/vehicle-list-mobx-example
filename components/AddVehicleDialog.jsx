@@ -17,7 +17,7 @@ export default observer(function AddVehicleDialog({ open, setOpen }) {
   const vehicleMakeOptions = {
     Dodaj: [{ value: 0, label: "Dodaj" }],
     "Postojeće marke": [
-      ...vehicleStore.VehicleMake.map((make) => ({
+      ...vehicleStore.vehicleMake.map((make) => ({
         value: make.id,
         label: make.abrv,
       })),
@@ -54,7 +54,7 @@ export default observer(function AddVehicleDialog({ open, setOpen }) {
             />
           </div>
           {addVehicleStore.selectMake.id === 0 ||
-          vehicleStore.VehicleMake.length < 1 ? (
+          vehicleStore.vehicleMake.length < 1 ? (
             <>
               <StyledInput field={addVehicleStore.form.$("makeName")} />
               <StyledInput field={addVehicleStore.form.$("makeAbrv")} />

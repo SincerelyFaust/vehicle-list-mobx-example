@@ -31,7 +31,7 @@ export default class AddVehicleStore extends VehicleUtilityStore {
   }
 
   findMake(makeId) {
-    const vehicleMake = this.vehicleStore.VehicleMake.find(
+    const vehicleMake = this.vehicleStore.vehicleMake.find(
       (make) => make.id === makeId
     );
     if (vehicleMake) {
@@ -69,8 +69,8 @@ export default class AddVehicleStore extends VehicleUtilityStore {
     if (!this.form.isValid)
       return (this.error = "Molimo ispunita sva polja u obrascu.");
 
-    const makeHighestId = this.getHighestId(this.vehicleStore.VehicleMake);
-    const modelHighestId = this.getHighestId(this.vehicleStore.VehicleModel);
+    const makeHighestId = this.getHighestId(this.vehicleStore.vehicleMake);
+    const modelHighestId = this.getHighestId(this.vehicleStore.vehicleModel);
 
     const data = {
       make: {
