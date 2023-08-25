@@ -6,8 +6,11 @@ export class ModelService {
     this.httpClient = httpClient;
   }
 
-  async getModels() {
-    const response = await this.httpClient.get(this.vehicleModelSupabaseUrl);
+  async getModels(params) {
+    const response = await this.httpClient.get(
+      this.vehicleModelSupabaseUrl,
+      params || ""
+    );
 
     if (response instanceof Error) {
       return response.message;

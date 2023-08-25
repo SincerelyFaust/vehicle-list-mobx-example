@@ -25,6 +25,8 @@ export class VehicleStore {
       deleteModelToStore: action.bound,
       editMakeToStore: action.bound,
       editModelToStore: action.bound,
+      setMakes: action.bound,
+      setModels: action.bound,
     });
   }
 
@@ -33,6 +35,14 @@ export class VehicleStore {
 
     this.VehicleMake = data.vehicleMake;
     this.VehicleModel = data.vehicleModel;
+  }
+
+  setMakes(data) {
+    this.VehicleMake = data;
+  }
+
+  setModels(data) {
+    this.VehicleModel = data;
   }
 
   setFilterChoice(newChoice) {

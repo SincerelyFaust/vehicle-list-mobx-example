@@ -6,8 +6,11 @@ export class MakeService {
     this.httpClient = httpClient;
   }
 
-  async getMakes() {
-    const response = await this.httpClient.get(this.vehicleMakeSupabaseUrl);
+  async getMakes(params) {
+    const response = await this.httpClient.get(
+      this.vehicleMakeSupabaseUrl,
+      params || ""
+    );
 
     if (response instanceof Error) {
       return response.message;

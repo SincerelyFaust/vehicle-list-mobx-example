@@ -3,7 +3,6 @@ import ListLayout from "@/layouts/ListLayout";
 import { useStore } from "@/common/StoreProvider";
 import { observer, useLocalObservable } from "mobx-react-lite";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
-import SortVehicle from "@/common/SortVehicle";
 import EditVehicleDialog from "@/components/EditVehicleDialog";
 import Pages from "@/components/Pages";
 import CustomSelect from "@/components/CustomSelect";
@@ -13,6 +12,10 @@ import { ModelService } from "@/common/ModelService";
 import { MakeService } from "@/common/MakeService";
 
 const Home = observer(function Home() {
+  const httpClient = new HttpClient();
+  const modelService = new ModelService(httpClient);
+  const makeService = new MakeService(httpClient);
+
   const dialogState = useLocalObservable(() => ({
     openAddVehicleDialog: false,
     openEditVehicleDialog: false,
@@ -55,8 +58,28 @@ const Home = observer(function Home() {
     return store.filteredVehicleModelData.slice(start, start + itemsToDisplay);
   }
 
-  function handleSortSelectChange(value) {
-    SortVehicle(store.VehicleMake, store.VehicleModel, value);
+  async function handleSortSelectChange(value) {
+    switch (value) {
+      case "alphabetical-make":
+        const alphabeticalMake = await makeService.getMakes("?order=name.asc");
+        store.setMakes(alphabeticalMake);
+
+        const sortedModelsByMake = store.VehicleModel.sort((a, b) => {
+          const makeA = alphabeticalMake.find((make) => make.id === a.makeid);
+          const makeB = alphabeticalMake.find((make) => make.id === b.makeid);
+          return (
+            makeA.name.localeCompare(makeB.name) || a.name.localeCompare(b.name)
+          );
+        });
+        store.setModels(sortedModelsByMake);
+        break;
+      case "alphabetical-model":
+        const alphabeticalModel = await modelService.getModels(
+          "?order=name.asc"
+        );
+        store.setModels(alphabeticalModel);
+        break;
+    }
   }
 
   function handleFilterSelectChange(value) {
