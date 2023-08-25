@@ -1,7 +1,7 @@
 import ListItem from "@/components/ListItem";
 import ListLayout from "@/layouts/ListLayout";
 import { useStore } from "@/common/StoreProvider";
-import { observer, useLocalObservable } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import AddVehicleDialog from "@/components/AddVehicleDialog";
 import EditVehicleDialog from "@/components/EditVehicleDialog";
 import Pages from "@/components/Pages";
@@ -11,82 +11,18 @@ import { HttpClient } from "@/common/HttpClient";
 import { ModelService } from "@/common/ModelService";
 import { MakeService } from "@/common/MakeService";
 import { useEffect } from "react";
+import { HomeStore } from "@/stores/HomeStore";
+import { useLocalObservable } from "mobx-react-lite";
 
 const Home = observer(function Home() {
-  const httpClient = new HttpClient();
-  const modelService = new ModelService(httpClient);
-  const makeService = new MakeService(httpClient);
-
-  const dialogState = useLocalObservable(() => ({
-    openAddVehicleDialog: false,
-    openEditVehicleDialog: false,
-    setOpenAddVehicleDialog(value) {
-      this.openAddVehicleDialog = value;
-    },
-    setOpenEditVehicleDialog(value) {
-      this.openEditVehicleDialog = value;
-    },
-  }));
-
-  const pageState = useLocalObservable(() => ({
-    currentPage: 1,
-    pageInput: 1,
-    setCurrentPage(value) {
-      this.currentPage = value;
-    },
-    setPageInput(value) {
-      this.pageInput = value;
-    },
-  }));
-
-  const choiceState = useLocalObservable(() => ({
-    sortChoice: "",
-    filterChoice: null,
-    setSortChoice(value) {
-      this.sortChoice = value;
-    },
-    setFilterChoice(value) {
-      this.filterChoice = value;
-    },
-  }));
-
   const store = useStore();
+  const homeStore = useLocalObservable(() => new HomeStore(store));
 
   const itemsToDisplay = 8;
 
   function displayVehicles() {
-    const start = (pageState.currentPage - 1) * itemsToDisplay;
+    const start = (homeStore.currentPage - 1) * itemsToDisplay;
     return store.getFilteredModels.slice(start, start + itemsToDisplay);
-  }
-
-  async function handleSortSelectChange(value) {
-    switch (value) {
-      case "alphabetical-make":
-        const alphabeticalMake = await makeService.getMakes("?order=name.asc");
-        store.setMakes(alphabeticalMake);
-
-        const sortedModelsByMake = store.vehicleModel.sort((a, b) => {
-          const makeA = alphabeticalMake.find((make) => make.id === a.makeid);
-          const makeB = alphabeticalMake.find((make) => make.id === b.makeid);
-          return (
-            makeA.name.localeCompare(makeB.name) || a.name.localeCompare(b.name)
-          );
-        });
-        store.setModels(sortedModelsByMake);
-        break;
-      case "alphabetical-model":
-        const alphabeticalModel = await modelService.getModels(
-          "?order=name.asc"
-        );
-        store.setModels(alphabeticalModel);
-        break;
-    }
-  }
-
-  function handleFilterSelectChange(value) {
-    store.setFilterChoice(value);
-    pageState.setCurrentPage(1);
-    pageState.setPageInput(1);
   }
 
   const sortOptions = {
@@ -111,26 +47,24 @@ const Home = observer(function Home() {
     }
 
     fetchFilteredModels();
-  }, [store, choiceState.filterChoice]);
+  }, [store, homeStore.filterChoice]);
 
   return (
     <>
       <AddVehicleDialog
-        open={dialogState.openAddVehicleDialog}
-        setOpen={dialogState.setOpenAddVehicleDialog}
+        open={homeStore.openAddVehicleDialog}
+        setOpen={homeStore.setOpenAddVehicleDialog}
       />
       <EditVehicleDialog
-        open={dialogState.openEditVehicleDialog}
-        setOpen={dialogState.setOpenEditVehicleDialog}
+        open={homeStore.openEditVehicleDialog}
+        setOpen={homeStore.setOpenEditVehicleDialog}
       />
       <ListLayout
         buttons={
           <>
             <button
               onClick={() => {
-                dialogState.setOpenAddVehicleDialog(
-                  !dialogState.openAddVehicleDialog
-                );
+                homeStore.setOpenAddVehicleDialog(true);
               }}
             >
               <PlusCircle size={14} /> Dodaj
@@ -141,9 +75,9 @@ const Home = observer(function Home() {
                 icon: <ArrowDownAZ size={14} />,
               }}
               options={[sortOptions]}
-              selectedOption={choiceState.sortChoice}
-              setSelectedOption={choiceState.setSortChoice}
-              onChange={handleSortSelectChange}
+              selectedOption={homeStore.sortChoice}
+              setSelectedOption={homeStore.setSortChoice}
+              onChange={homeStore.handleSortSelectChange}
             />
             <CustomSelect
               selectHeader={{
@@ -151,9 +85,9 @@ const Home = observer(function Home() {
                 icon: <Filter size={14} />,
               }}
               options={[filterOptions]}
-              selectedOption={choiceState.filterChoice}
-              setSelectedOption={choiceState.setFilterChoice}
-              onChange={handleFilterSelectChange}
+              selectedOption={homeStore.filterChoice}
+              setSelectedOption={homeStore.setFilterChoice}
+              onChange={homeStore.handleFilterSelectChange}
             />
           </>
         }
@@ -167,8 +101,8 @@ const Home = observer(function Home() {
             <ListItem
               key={vehicleModel.id}
               vehicle={{ make: vehicleMake, model: vehicleModel }}
-              setOpenEditVehicleDialog={dialogState.setOpenEditVehicleDialog}
-              openEditVehicleDialog={dialogState.openEditVehicleDialog}
+              setOpenEditVehicleDialog={homeStore.setOpenEditVehicleDialog}
+              openEditVehicleDialog={homeStore.openEditVehicleDialog}
             />
           );
         })}
@@ -176,10 +110,10 @@ const Home = observer(function Home() {
       <Pages
         itemCount={store.getFilteredModels.length}
         displayItems={itemsToDisplay}
-        currentPage={pageState.currentPage}
-        onPageChange={pageState.setCurrentPage}
-        pageInput={pageState.pageInput}
-        setPageInput={pageState.setPageInput}
+        currentPage={homeStore.currentPage}
+        onPageChange={homeStore.setCurrentPage}
+        pageInput={homeStore.pageInput}
+        setPageInput={homeStore.setPageInput}
       />
     </>
   );
