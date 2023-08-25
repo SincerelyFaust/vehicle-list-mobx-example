@@ -1,40 +1,29 @@
 import { makeObservable, observable, action } from "mobx";
 import { AddVehicleForm } from "@/common/AddVehicleForm";
-import { ModelService } from "@/common/ModelService";
-import { MakeService } from "@/common/MakeService";
-import { HttpClient } from "@/common/HttpClient";
+import { VehicleUtilityStore } from "./VehicleUtilityStore";
 
-export default class AddVehicleStore {
-  form;
+export default class AddVehicleStore extends VehicleUtilityStore {
   selectMake = {
     id: 0,
     name: "",
   };
-  error = "";
-  httpClient;
-  modelService;
-  makeService;
-  vehicleStore;
-  setOpen;
 
   constructor(vehicleStore, setOpen) {
-    this.vehicleStore = vehicleStore;
-    this.form = new AddVehicleForm();
-    this.httpClient = new HttpClient();
-    this.modelService = new ModelService(this.httpClient);
-    this.makeService = new MakeService(this.httpClient);
-    this.setOpen = setOpen;
+    super(vehicleStore, setOpen, AddVehicleForm);
 
     makeObservable(this, {
-      form: observable,
       selectMake: observable,
-      error: observable,
       findMake: action.bound,
       handleMakeSelectChange: action.bound,
-      resetState: action.bound,
       addVehicle: action.bound,
       setSelectMakeName: action.bound,
     });
+  }
+
+  resetState() {
+    super.resetState();
+    this.selectMake.id = 0;
+    this.selectMake.name = "";
   }
 
   setSelectMakeName(value) {

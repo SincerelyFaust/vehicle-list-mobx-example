@@ -1,31 +1,13 @@
-import { makeObservable, observable, action, autorun } from "mobx";
+import { makeObservable, action, autorun } from "mobx";
 import { EditVehicleForm } from "@/common/EditVehicleForm";
-import { ModelService } from "@/common/ModelService";
-import { MakeService } from "@/common/MakeService";
-import { HttpClient } from "@/common/HttpClient";
 import { toJS } from "mobx";
+import { VehicleUtilityStore } from "./VehicleUtilityStore";
 
-export default class EditVehicleStore {
-  form;
-  error = "";
-  httpClient;
-  modelService;
-  makeService;
-  vehicleStore;
-  setOpen;
-
+export default class EditVehicleStore extends VehicleUtilityStore {
   constructor(vehicleStore, setOpen) {
-    this.vehicleStore = vehicleStore;
-    this.form = new EditVehicleForm();
-    this.httpClient = new HttpClient();
-    this.modelService = new ModelService(this.httpClient);
-    this.makeService = new MakeService(this.httpClient);
-    this.setOpen = setOpen;
+    super(vehicleStore, setOpen, EditVehicleForm);
 
     makeObservable(this, {
-      form: observable,
-      error: observable,
-      resetState: action.bound,
       editVehicle: action.bound,
     });
 
@@ -35,12 +17,6 @@ export default class EditVehicleStore {
       this.form.$("modelName").set(this.vehicleStore.currentVehicle.model.name);
       this.form.$("modelAbrv").set(this.vehicleStore.currentVehicle.model.abrv);
     });
-  }
-
-  resetState() {
-    this.setOpen(false);
-    this.form.reset();
-    this.error = "";
   }
 
   async editVehicle() {
