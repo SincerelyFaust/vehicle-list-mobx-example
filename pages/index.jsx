@@ -10,6 +10,7 @@ import { ArrowDownAZ, Filter, PlusCircle } from "lucide-react";
 import { HttpClient } from "@/common/HttpClient";
 import { ModelService } from "@/common/ModelService";
 import { MakeService } from "@/common/MakeService";
+import { useEffect } from "react";
 
 const Home = observer(function Home() {
   const httpClient = new HttpClient();
@@ -55,7 +56,7 @@ const Home = observer(function Home() {
 
   function displayVehicles() {
     const start = (pageState.currentPage - 1) * itemsToDisplay;
-    return store.filteredVehicleModelData.slice(start, start + itemsToDisplay);
+    return store.getFilteredModels.slice(start, start + itemsToDisplay);
   }
 
   async function handleSortSelectChange(value) {
@@ -102,6 +103,15 @@ const Home = observer(function Home() {
       label: `${make.name} (${make.abrv})`,
     })),
   };
+
+  useEffect(() => {
+    async function fetchFilteredModels() {
+      const filteredModels = await store.filteredVehicleModelData();
+      return filteredModels;
+    }
+
+    fetchFilteredModels();
+  }, [store, choiceState.filterChoice]);
 
   return (
     <>
@@ -164,7 +174,7 @@ const Home = observer(function Home() {
         })}
       </ListLayout>
       <Pages
-        itemCount={store.filteredVehicleModelData.length}
+        itemCount={store.getFilteredModels.length}
         displayItems={itemsToDisplay}
         currentPage={pageState.currentPage}
         onPageChange={pageState.setCurrentPage}

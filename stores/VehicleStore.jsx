@@ -1,4 +1,6 @@
 import { makeObservable, observable, action, computed } from "mobx";
+import { HttpClient } from "@/common/HttpClient";
+import { ModelService } from "@/common/ModelService";
 
 export class VehicleStore {
   vehicleMake = [];
@@ -8,8 +10,14 @@ export class VehicleStore {
     make: { name: "", abrv: "", id: null },
     model: { name: "", abrv: "", id: null, makeid: null },
   };
+  httpClient;
+  modelService;
+  filteredModels = [];
 
   constructor() {
+    this.httpClient = new HttpClient();
+    this.modelService = new ModelService(this.httpClient);
+
     makeObservable(this, {
       vehicleMake: observable,
       vehicleModel: observable,
@@ -17,8 +25,10 @@ export class VehicleStore {
       currentVehicle: observable,
       hydrate: action.bound,
       setFilterChoice: action.bound,
-      filteredVehicleModelData: computed,
+      filteredVehicleModelData: action.bound,
+      getFilteredModels: computed,
       setCurrentVehicle: action.bound,
+      filteredModels: observable,
       addMakeToStore: action.bound,
       addModelToStore: action.bound,
       deleteMakeToStore: action.bound,
@@ -49,18 +59,24 @@ export class VehicleStore {
     this.filterChoice = newChoice;
   }
 
-  get filteredVehicleModelData() {
-    if (!this.filterChoice) {
+  get getFilteredModels() {
+    if (!this.filteredModels || this.filteredModels.length === 0) {
       return this.vehicleModel;
     }
 
-    const vehicleMake = this.vehicleMake.find(
-      (make) => make.id === this.filterChoice
+    return this.filteredModels;
+  }
+
+  async filteredVehicleModelData() {
+    if (!this.filterChoice) return this.filteredModels.clear();
+
+    const fetchFilteredModels = await this.modelService.getModels(
+      `?makeid=eq.${this.filterChoice}`
     );
 
-    if (!vehicleMake) return this.vehicleModel;
+    if (!fetchFilteredModels || fetchFilteredModels.length === 0) return;
 
-    return this.vehicleModel.filter((model) => model.makeid === vehicleMake.id);
+    return (this.filteredModels = fetchFilteredModels);
   }
 
   setCurrentVehicle(make, model) {
