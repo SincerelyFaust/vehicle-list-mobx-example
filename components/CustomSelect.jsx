@@ -2,7 +2,7 @@ import styles from "./CustomSelect.module.css";
 import { useRef, useEffect } from "react";
 import { observer, useLocalObservable } from "mobx-react-lite";
 
-export default observer(function AddVehicleDialog({
+export default observer(function CustomSelect({
   selectHeader,
   options,
   selectedOption,
