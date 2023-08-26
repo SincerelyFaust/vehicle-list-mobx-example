@@ -1,29 +1,16 @@
 import styles from "@/components/ListItem.module.css";
 import { useStore } from "@/common/StoreProvider";
 import { Edit, XCircle } from "lucide-react";
-import { HttpClient } from "@/common/HttpClient";
-import { ModelService } from "@/common/ModelService";
+import { ListItemStore } from "@/stores/ListItemStore";
+import { useLocalObservable } from "mobx-react-lite";
 
-export default function ListItem({
-  vehicle,
-  setOpenEditVehicleDialog,
-  openEditVehicleDialog,
-}) {
+export default function ListItem({ vehicle, setOpenEditVehicleDialog }) {
   const { make, model } = vehicle;
 
   const store = useStore();
-  const httpClient = new HttpClient();
-  const modelService = new ModelService(httpClient);
-
-  async function handleClick() {
-    const modelResponse = await modelService.deleteModel(model);
-
-    if (modelResponse) {
-      return console.error(modelResponse);
-    }
-
-    store.deleteModelToStore(model);
-  }
+  const listItemStore = useLocalObservable(
+    () => new ListItemStore(store, setOpenEditVehicleDialog)
+  );
 
   return (
     <li className={styles["list-item"]}>
@@ -36,15 +23,10 @@ export default function ListItem({
         {model.name} <span>({model.abrv})</span>
       </p>
       <div className={styles["button-div"]}>
-        <button
-          onClick={() => {
-            store.setCurrentVehicle(make, model);
-            setOpenEditVehicleDialog(!openEditVehicleDialog);
-          }}
-        >
+        <button onClick={() => listItemStore.editVehicle(make, model)}>
           <Edit size={16} /> <p>Uredi</p>
         </button>
-        <button onClick={() => handleClick()}>
+        <button onClick={() => listItemStore.deleteVehicle(model)}>
           <XCircle size={16} /> <p>Izbriši</p>
         </button>
       </div>
