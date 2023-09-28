@@ -15,7 +15,7 @@ export default function ListItem({ vehicle, setOpenEditVehicleDialog }) {
   return (
     <li className={styles["list-item"]}>
       <p>
-        <span className={styles["make-model-span"]}>Marka</span>
+        <span className={styles["make-model-span"]}>Make</span>
         {make.name} <span>({make.abrv})</span>
       </p>
       <p>
@@ -24,10 +24,10 @@ export default function ListItem({ vehicle, setOpenEditVehicleDialog }) {
       </p>
       <div className={styles["button-div"]}>
         <button onClick={() => listItemStore.editVehicle(make, model)}>
-          <Edit size={16} /> <p>Uredi</p>
+          <Edit size={16} /> <p>Edit</p>
         </button>
         <button onClick={() => listItemStore.deleteVehicle(model)}>
-          <XCircle size={16} /> <p>Izbriši</p>
+          <XCircle size={16} /> <p>Delete</p>
         </button>
       </div>
     </li>

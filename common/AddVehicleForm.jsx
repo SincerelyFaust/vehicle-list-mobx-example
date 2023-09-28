@@ -14,26 +14,26 @@ export class AddVehicleForm extends Form {
       fields: [
         {
           name: "makeName",
-          label: "Naziv marke",
-          placeholder: "Unesite naziv marke vozila",
+          label: "Make name",
+          placeholder: "Enter the name of the vehicle make",
           rules: "required|string|between:2,50",
         },
         {
           name: "makeAbrv",
-          label: "Skraćenica marke",
-          placeholder: "Unesite skraćenicu marke vozila",
+          label: "Abbreviation of vehicle make",
+          placeholder: "Enter the abbreviation of vehicle make",
           rules: "required|string|between:1,10",
         },
         {
           name: "modelName",
-          label: "Naziv modela",
-          placeholder: "Unesite naziv modela vozila",
+          label: "Model name",
+          placeholder: "Enter the name of the vehicle model",
           rules: "required|string|between:2,50",
         },
         {
           name: "modelAbrv",
-          label: "Skraćenica modela",
-          placeholder: "Unesite skraćenicu modela vozila",
+          label: "Abbreviation of vehicle model",
+          placeholder: "Enter the abbreviation of vehicle model",
           rules: "required|string|between:1,10",
         },
       ],
@@ -43,11 +43,11 @@ export class AddVehicleForm extends Form {
   hooks() {
     return {
       onSuccess(form) {
-        alert(`Uspješno dodano!`);
+        alert(`Successfully added!`);
         console.log("Form Values!", form.values());
       },
       onError(form) {
-        alert("Pronađena je greška u obrascu!");
+        alert("A form error was found!");
         console.error("All form errors", form.errors());
       },
     };

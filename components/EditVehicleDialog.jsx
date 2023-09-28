@@ -20,7 +20,7 @@ export default observer(function EditVehicleDialog({ open, setOpen }) {
 
   return (
     <Dialog
-      title={"Uredi vozilo"}
+      title={"Edit a vehicle"}
       open={open}
       setOpen={setOpen}
       form={"edit-car-form"}
@@ -28,10 +28,10 @@ export default observer(function EditVehicleDialog({ open, setOpen }) {
       error={editVehicleStore.error}
     >
       <Form handleSubmit={handleSubmit} formId={"edit-car-form"}>
-        <label>Marka vozila</label>
+        <label>Vehicle make</label>
         <StyledInput field={editVehicleStore.form.$("makeName")} />
         <StyledInput field={editVehicleStore.form.$("makeAbrv")} />
-        <label>Model vozila</label>
+        <label>Vehicle model</label>
         <div className={styles["form-content"]}>
           <StyledInput field={editVehicleStore.form.$("modelName")} />
           <StyledInput field={editVehicleStore.form.$("modelAbrv")} />

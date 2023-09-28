@@ -67,7 +67,7 @@ export default class AddVehicleStore extends VehicleUtilityStore {
     this.form.validate();
 
     if (!this.form.isValid)
-      return (this.error = "Molimo ispunita sva polja u obrascu.");
+      return (this.error = "Please fill in all fields in the form.");
 
     const makeHighestId = this.getHighestId(this.vehicleStore.vehicleMake);
     const modelHighestId = this.getHighestId(this.vehicleStore.vehicleModel);

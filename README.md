@@ -1,7 +1,7 @@
 # Vehicle list MobX example
 
-A simple Next.js example of displaying data fetched from an API, in this case from Supabase, using MobX for state management.
-It also features some neat components that are all custom and written in plain CSS (CSS Modules).
+A simple Next.js example of displaying data fetched from an API, in this case from Supabase, and using MobX for state management.
+It also features some neat components that are all custom and written in plain CSS (CSS Modules) including forms and the use of mobx-react-form for validating those.
 
 ## Running the project
 

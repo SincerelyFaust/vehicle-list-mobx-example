@@ -26,15 +26,15 @@ const Home = observer(function Home() {
   }
 
   const sortOptions = {
-    Abecedno: [
-      { value: "alphabetical-make", label: "Marke" },
-      { value: "alphabetical-model", label: "Modeli" },
+    Alphabetical: [
+      { value: "alphabetical-make", label: "Makes" },
+      { value: "alphabetical-model", label: "Models" },
     ],
   };
 
   const filterOptions = {
-    "Sva vozila": [{ value: null, label: "Prikaži sve" }],
-    Marka: store.vehicleMake.map((make) => ({
+    "All vehicles": [{ value: null, label: "Show all" }],
+    Make: store.vehicleMake.map((make) => ({
       value: make.id,
       label: `${make.name} (${make.abrv})`,
     })),
@@ -67,11 +67,11 @@ const Home = observer(function Home() {
                 homeStore.setOpenAddVehicleDialog(true);
               }}
             >
-              <PlusCircle size={14} /> Dodaj
+              <PlusCircle size={14} /> Add
             </button>
             <CustomSelect
               selectHeader={{
-                title: "Sortiraj",
+                title: "Sort",
                 icon: <ArrowDownAZ size={14} />,
               }}
               options={[sortOptions]}
@@ -81,7 +81,7 @@ const Home = observer(function Home() {
             />
             <CustomSelect
               selectHeader={{
-                title: "Filtriraj",
+                title: "Filter",
                 icon: <Filter size={14} />,
               }}
               options={[filterOptions]}

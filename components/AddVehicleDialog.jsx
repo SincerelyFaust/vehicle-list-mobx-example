@@ -15,8 +15,8 @@ export default observer(function AddVehicleDialog({ open, setOpen }) {
   );
 
   const vehicleMakeOptions = {
-    Dodaj: [{ value: 0, label: "Dodaj" }],
-    "Postojeće marke": [
+    Add: [{ value: 0, label: "Add" }],
+    "Existing makes": [
       ...vehicleStore.vehicleMake.map((make) => ({
         value: make.id,
         label: make.abrv,
@@ -32,19 +32,19 @@ export default observer(function AddVehicleDialog({ open, setOpen }) {
 
   return (
     <Dialog
-      title={"Dodaj novo vozilo"}
+      title={"Add new vehicle"}
       open={open}
       form={"add-car-form"}
       resetState={addVehicleStore.resetState}
       error={addVehicleStore.error}
     >
       <Form handleSubmit={handleSubmit} formId={"add-car-form"}>
-        <label>Marka vozila</label>
+        <label>Vehicle make</label>
         <div className={styles["form-content"]}>
           <div className={styles["form-item"]}>
             <CustomSelect
               selectHeader={{
-                title: "Odaberi postojeću marku",
+                title: "Choose an existing make",
                 icon: <Car size={14} />,
               }}
               options={[vehicleMakeOptions]}
@@ -61,7 +61,7 @@ export default observer(function AddVehicleDialog({ open, setOpen }) {
             </>
           ) : null}
         </div>
-        <label>Model vozila</label>
+        <label>Vehicle model</label>
         <div className={styles["form-content"]}>
           <StyledInput field={addVehicleStore.form.$("modelName")} />
           <StyledInput field={addVehicleStore.form.$("modelAbrv")} />

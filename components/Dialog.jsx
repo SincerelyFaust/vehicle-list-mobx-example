@@ -48,10 +48,10 @@ export default function Dialog({
         ) : null}
         <div className={styles["dialog-buttons-container"]}>
           <button form={form} type="submit">
-            <Check size={16} /> Potvrdi
+            <Check size={16} /> Confirm
           </button>
           <button onClick={resetState}>
-            <X size={16} /> Zatvori
+            <X size={16} /> Close
           </button>
         </div>
       </dialog>

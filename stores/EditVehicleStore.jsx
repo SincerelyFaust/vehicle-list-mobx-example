@@ -23,8 +23,7 @@ export default class EditVehicleStore extends VehicleUtilityStore {
     this.form.validate();
 
     if (!this.form.isValid)
-      return (this.error =
-        "Greška u obrascu, molimo provjerite unešene podatke.");
+      return (this.error = "Error in the form, please check the entered data.");
 
     const { make: currentMake, model: currentModel } =
       this.vehicleStore.currentVehicle;
@@ -48,7 +47,7 @@ export default class EditVehicleStore extends VehicleUtilityStore {
       JSON.stringify(toJS(currentModel)) === JSON.stringify(data.model);
 
     if (isMakeEqual && isModelEqual)
-      return (this.error = "Molimo unesite nove podatke.");
+      return (this.error = "Please enter new information.");
 
     if (!isModelEqual) {
       const modelResponse = await this.modelService.editModel(
